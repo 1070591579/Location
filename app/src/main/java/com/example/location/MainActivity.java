@@ -47,6 +47,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     private BaiduMap baiduMap;
     private LatLng mLastLocationData;
+    private NetWorkStateReceiver netWorkStateReceiver;
+
+    public class MyLocationListener extends BDAbstractLocationListener {
+        @Override
+        public void onReceiveLocation(final BDLocation bdLocation) {
+            mLatitude = bdLocation.getLatitude();
+            mLongtitude = bdLocation.getLongitude();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StringBuilder currentPosition = new StringBuilder();
+                    currentPosition.append("纬度：").append(bdLocation.getLatitude()).append("\n");
+                    currentPosition.append("经度：").append(bdLocation.getLongitude()).append("\n");
+                    //国家，省，市，区，街道
+                    currentPosition.append("国家：").append(bdLocation.getCountry()).append("\n");
+                    currentPosition.append("省：").append(bdLocation.getProvince()).append("\n");
+                    currentPosition.append("市：").append(bdLocation.getCity()).append("\n");
+                    currentPosition.append("区：").append(bdLocation.getDistrict()).append("\n");
+                    currentPosition.append("街道：").append(bdLocation.getStreet()).append("\n");
+                    currentPosition.append("定位方式：");
+                    if(bdLocation.getLocType() == BDLocation.TypeGpsLocation){
+                        currentPosition.append("GPS");
+                    }else if(bdLocation.getLocType() == BDLocation.TypeNetWorkLocation){
+                        currentPosition.append("网络");
+                    }
+                    positionText.setText(currentPosition);
+                }
+            });
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,11 +114,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onResume() {
+        if (netWorkStateReceiver == null) {
+            netWorkStateReceiver = new NetWorkStateReceiver();
+        }
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(netWorkStateReceiver, filter);
+        System.out.println("注册");
         super.onResume();
         mapView.onResume();
     }
     @Override
     protected void onPause() {
+        unregisterReceiver(netWorkStateReceiver);
+        System.out.println("注销");
         super.onPause();
         mapView.onPause();
     }
@@ -165,9 +204,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /** 按钮响应  获取GPS定位信息 */
     private void button() {
         //按钮
-        Button btn_start_location = findViewById(R.id.but_Loc);
+        Button mbut_Loc = findViewById(R.id.but_Loc);
+        Button mbut_RoutrPlan = findViewById(R.id.but_RoutrPlan);
+        Button mbut_Attribute = findViewById(R.id.but_Attribute);
+        Button mbut_Command = findViewById(R.id.but_Command);
         //按钮处理
-        btn_start_location.setOnClickListener(this);
+        mbut_Loc.setOnClickListener(this);
+        mbut_RoutrPlan.setOnClickListener(this);
+        mbut_Attribute.setOnClickListener(this);
+        mbut_Command.setOnClickListener(this);
     }
     @Override
     public void onClick(View v) {
@@ -230,34 +275,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         baiduMap.setMyLocationData(myLocationData);
     }
 
-
-
-    public class MyLocationListener extends BDAbstractLocationListener {
-        @Override
-        public void onReceiveLocation(final BDLocation bdLocation) {
-            mLatitude = bdLocation.getLatitude();
-            mLongtitude = bdLocation.getLongitude();
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    StringBuilder currentPosition = new StringBuilder();
-                    currentPosition.append("纬度：").append(bdLocation.getLatitude()).append("\n");
-                    currentPosition.append("经度：").append(bdLocation.getLongitude()).append("\n");
-                    //国家，省，市，区，街道
-                    currentPosition.append("国家：").append(bdLocation.getCountry()).append("\n");
-                    currentPosition.append("省：").append(bdLocation.getProvince()).append("\n");
-                    currentPosition.append("市：").append(bdLocation.getCity()).append("\n");
-                    currentPosition.append("区：").append(bdLocation.getDistrict()).append("\n");
-                    currentPosition.append("街道：").append(bdLocation.getStreet()).append("\n");
-                    currentPosition.append("定位方式：");
-                    if(bdLocation.getLocType() == BDLocation.TypeGpsLocation){
-                        currentPosition.append("GPS");
-                    }else if(bdLocation.getLocType() == BDLocation.TypeNetWorkLocation){
-                        currentPosition.append("网络");
-                    }
-                    positionText.setText(currentPosition);
-                }
-            });
-        }
-    }
 }
