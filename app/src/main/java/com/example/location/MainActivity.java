@@ -6,6 +6,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +22,7 @@ import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.location.Poi;
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
@@ -57,21 +59,22 @@ import java.util.List;
  */
 public class MainActivity<mInfoWindow> extends AppCompatActivity implements View.OnClickListener{
 
-    private MapView mapView = null;
-    private BaiduMap baiduMap = null;
+    private MapView mapView;
+    private BaiduMap baiduMap;
     private Context context;
+    private TextView mTvLog;
     /** 定位相关 经纬度信息 */
     private double mLatitude ;
     private double mLongtitude;
     private boolean isFirstLocate = true;
-    private TextView positionText  = null;
     /**日志的TAG */
     private static final String TAG;
     static {
-        TAG = "MainActivity";
+        TAG = "BlueActivity";
     }
     /** 覆盖物 */
     private Marker marker = null;
+    private MyLocationListener myListener = new MyLocationListener();
     private LocationClient mLocationClient;
     /** 方向传感器 */
     private MyOrientationListener mMyOrientationListener;
@@ -79,7 +82,6 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
     private LatLng mLastLocationData;
     private BitmapDescriptor mIconLocation = BitmapDescriptorFactory.fromResource(R.drawable.arrow);
     private float mcurrentx ;
-    private View myview ;
     private RoutePlanSearch mSearch;
 
     /**
@@ -95,84 +97,128 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
         @Override
         public void onReceiveLocation(final BDLocation bdLocation) {
             // Log.d(TAG, "BDLocationListener -> onReceiveLocation");
-            /** 定位结果 */
-            String addr;
             /** mapView 销毁后不在处理新接收的位置 */
             if (bdLocation == null || mapView == null) {
                 Log.d(TAG, "BDLocation or mapView is null");
-                positionText.setText("定位失败...");
+                mTvLog.setText("定位失败...");
                 return;
             }
-            if(!bdLocation.getLocationDescribe().isEmpty()) {
-                addr = bdLocation.getLocationDescribe();
-            }else if (bdLocation.hasAddr()) {
-                addr = bdLocation.getAddrStr();
-            }else {
-                Log.d(TAG, "BDLocation has no addr info");
-                addr = "定位失败...";
-                return;
+            // isFirstLocate变量为了防止多次调用animateMapStatus()方法，因为将地图移动到当前位置只需要在程序第一次定位时调用即可
+            if(isFirstLocate){
+                //设置地图缩放级别和将地图移动到当前经纬度
+                LatLng ll = new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude());
+                MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
+                baiduMap.animateMapStatus(update);
+                update = MapStatusUpdateFactory.zoomTo(16f);
+                baiduMap.animateMapStatus(update);
+                isFirstLocate = false;
             }
+            /* 设备在地图上显示的位置应随着设备的移动而实时改变，执行多次 */
             MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(bdLocation.getRadius())
-                    // 此处设置开发者获取到的方向信息，顺时针0-360
+                    /* 此处设置开发者获取到的方向信息，顺时针0-360 */
                     .direction(mcurrentx).latitude(bdLocation.getLatitude())
                     .longitude(bdLocation.getLongitude()).build();
             baiduMap.setMyLocationData(locData);
-            // 设置自定义图标
+            /* 设置自定义图标 */
             MyLocationConfiguration config = new
                     MyLocationConfiguration(
                     MyLocationConfiguration.LocationMode.NORMAL, true, mIconLocation);
             baiduMap.setMyLocationConfiguration(config);
-            // 更新经纬度
+            /* 更新经纬度 */
             mLatitude = bdLocation.getLatitude();
             mLongtitude = bdLocation.getLongitude();
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    StringBuilder currentPosition = new StringBuilder();
-                    currentPosition.append("纬度：").append(bdLocation.getLatitude()).append("\n");
-                    currentPosition.append("经度：").append(bdLocation.getLongitude()).append("\n");
-                    //国家，省，市，区，街道
-                    currentPosition.append("国家：").append(bdLocation.getCountry()).append("\n");
-                    currentPosition.append("省：").append(bdLocation.getProvince()).append("\n");
-                    currentPosition.append("市：").append(bdLocation.getCity()).append("\n");
-                    currentPosition.append("区：").append(bdLocation.getDistrict()).append("\n");
-                    currentPosition.append("街道：").append(bdLocation.getStreet()).append("\n");
-                    currentPosition.append("定位方式：");
-                    if(bdLocation.getLocType() == BDLocation.TypeGpsLocation){
-                        currentPosition.append("GPS");
-                    }else if(bdLocation.getLocType() == BDLocation.TypeNetWorkLocation){
-                        currentPosition.append("网络");
-                    }else if (bdLocation.getLocType() == BDLocation.TypeOffLineLocation) {
-                        // 离线定位结果
-                        currentPosition.append("离线定位");
+            /* 获取定位精度，默认值为0.0f */
+            float radius = bdLocation.getRadius();
+            /* 获取定位类型、定位错误返回码，具体信息可参照类参考中BDLocation类中的说明 */
+            int errorCode = bdLocation.getLocType();
+
+            mTvLog.setText("");
+            //获取国家
+            String country = bdLocation.getCountry();
+            //获取省份
+            String province = bdLocation.getProvince();
+            //获取城市
+            String city = bdLocation.getCity();
+            //获取区县
+            String district = bdLocation.getDistrict();
+            //获取街道信息
+            String street = bdLocation.getStreet();
+            //获取位置描述信息
+            String locationDescribe = bdLocation.getLocationDescribe();
+            //获取详细地址信息
+            String addr = bdLocation.getAddrStr();
+            textViewAddText(mTvLog,"    纬度: "+ mLatitude +"\t\t经度: " + mLongtitude);
+            textViewAddText(mTvLog,"    国家: "+ country   +"\t\t省份: " + province);
+            textViewAddText(mTvLog,"    城市: "+ city + "\t\t区县: "+ district);
+            textViewAddText(mTvLog,"    街道: " + street);
+            textViewAddText(mTvLog,"    位置描述: "+addr);
+            textViewAddText(mTvLog,"    详细地址: "+locationDescribe);
+            List<Poi> poiList = bdLocation.getPoiList();
+            //获取周边POI信息
+            //POI信息包括POI ID、名称等，具体信息请参照类参考中POI类的相关说明
+            if (poiList != null){
+                int cnt = 0;
+                for (Poi poi : poiList){
+                    textViewAddText(mTvLog,"    Poi: "+poi.getName());
+                    cnt++;
+                    if (cnt >= 3) {
+                        break;
                     }
-                    positionText.setText(currentPosition);
                 }
-            });
+            }
         }
     }
-
+    private void textViewAddText(TextView textView,String s){
+        if (TextUtils.isEmpty(s)) {
+            return;
+        }
+        textView.setText(textView.getText()+"\n"+s);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SDKInitializer.initialize(getApplicationContext());
-        setContentView(R.layout.activity_main);
+         setContentView(R.layout.activity_main);
         SDKInitializer.setCoordType(CoordType.BD09LL);
         /* 展示GPS定位信息 */
         mLocationClient = new LocationClient(this.getApplicationContext());
+        /* 获取到位置信息时会回调该定位监听器 */
+        mLocationClient.registerLocationListener(myListener);
         /* 初始化图标 */
         mIconLocation = BitmapDescriptorFactory.fromResource(R.drawable.navi_map_gps);
-        /* 获取到位置信息时会回调该定位监听器 */
-        mLocationClient.registerLocationListener(new MyLocationListener());
         this.context = this;
-        positionText = findViewById(R.id.position_text_view);
         mapView = findViewById(R.id.b_map_View);
-        myview = findViewById(R.id.view_attribute);
+        mTvLog = findViewById(R.id.view_attribute);
         /* 获取BaiduMap实例 */
         baiduMap = mapView.getMap();
+        getPermissionMethod();
+    }
+    /** 首次进入权限验证 */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case 1:
+                if(grantResults.length > 0){
+                    for(int result : grantResults){
+                        if(result != PackageManager.PERMISSION_GRANTED){
+                            Toast.makeText(this, "You must allow all the permissions", Toast.LENGTH_SHORT).show();
+                            finish();
+                            return;
+                        }
+                    }
+                    requestLocation();
+                }else {
+                    Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                break;
+            default:
+        }
+    }
 
-        /* 动态申请权限 */
+    /** 权限请求 */
+    private void getPermissionMethod() {
         List<String> permissionList = new ArrayList<>();
         if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
@@ -260,12 +306,12 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
     private void button() {
         /* 按钮 */
         Button mbut_Loc = findViewById(R.id.but_Loc);
-//        Button mbut_RoutrPlan = findViewById(R.id.but_RoutrPlan);
+        /* Button mbut_RoutrPlan = findViewById(R.id.but_RoutrPlan);*/
         Button mbut_Attribute = findViewById(R.id.but_Attribute);
         Button mbut_Command = findViewById(R.id.but_Command);
         /** 按钮处理 */
         mbut_Loc.setOnClickListener(this);
-//        mbut_RoutrPlan.setOnClickListener(this);
+        /* mbut_RoutrPlan.setOnClickListener(this); */
         mbut_Attribute.setOnClickListener(this);
         mbut_Command.setOnClickListener(this);
     }
@@ -431,10 +477,10 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
     }
     /** 属性View显示 */
     private void ShowViewAttribute() {
-        if(myview.getVisibility() == View.VISIBLE){
-            myview.setVisibility(View.INVISIBLE);
+        if(mTvLog.getVisibility() == View.VISIBLE){
+            mTvLog.setVisibility(View.INVISIBLE);
         }else {
-            myview.setVisibility(View.VISIBLE);
+            mTvLog.setVisibility(View.VISIBLE);
         }
     }
     /** 命令View显示 */
@@ -442,48 +488,4 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
         Toast.makeText(getApplicationContext(), "按钮被点击了", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "ShowViewCommand+进入函数");
     }
-
-    /** 首次进入权限验证 */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
-            case 1:
-                if(grantResults.length > 0){
-                    for(int result : grantResults){
-                        if(result != PackageManager.PERMISSION_GRANTED){
-                            Toast.makeText(this, "You must allow all the permissions", Toast.LENGTH_SHORT).show();
-                            finish();
-                            return;
-                        }
-                    }
-                    requestLocation();
-                }else {
-                    Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-                break;
-            default:
-        }
-    }
-
-
-    private void navigateTo(BDLocation bdLocation) {
-        // isFirstLocate变量为了防止多次调用animateMapStatus()方法，因为将地图移动到当前位置只需要在程序第一次定位时调用即可
-        if(isFirstLocate){
-            //设置地图缩放级别和将地图移动到当前经纬度
-            LatLng ll = new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude());
-            MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
-            baiduMap.animateMapStatus(update);
-            update = MapStatusUpdateFactory.zoomTo(16f);
-            baiduMap.animateMapStatus(update);
-            isFirstLocate = false;
-        }
-        //设备在地图上显示的位置应随着设备的移动而实时改变，执行多次
-        MyLocationData.Builder locationBuilder = new MyLocationData.Builder();
-        locationBuilder.latitude(bdLocation.getLatitude());
-        locationBuilder.longitude(bdLocation.getLongitude());
-        MyLocationData myLocationData = locationBuilder.build();
-        baiduMap.setMyLocationData(myLocationData);
-    }
-
 }
