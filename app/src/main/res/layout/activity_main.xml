@@ -7,245 +7,143 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.baidu.mapapi.map.MapView
-        android:id="@+id/b_map_View"
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:clickable="true"
-        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </com.baidu.mapapi.map.MapView>
+        <LinearLayout
+            android:layout_width="200sp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="#aaaaaa"
+            android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="44dp"
-        android:background="@android:color/white"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/b_map_View"
-        app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintHorizontal_bias="0.5">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:text="@string/leftSlow"
+                android:textSize="20sp" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/but_Loc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/location"
-            tools:ignore="ButtonStyle" />
+        <LinearLayout
+            android:layout_width="200sp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="#bbbbbb"
+            android:orientation="vertical">
 
-<!--        <Button-->
-<!--            android:id="@+id/but_RoutrPlan"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="@string/plan"-->
-<!--            android:visibility="visible"-->
-<!--            tools:ignore="ButtonStyle" />-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:text="@string/rightSlow"
+                android:textSize="20sp" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/but_Attribute"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/attribute"
-            tools:ignore="ButtonStyle" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/but_Command"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/command"
-            tools:ignore="ButtonStyle" />
+            <com.baidu.mapapi.map.MapView
+                android:id="@+id/b_map_View"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
 
-    </LinearLayout>
+            </com.baidu.mapapi.map.MapView>
 
-    <TextView
-        android:id="@+id/position_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="300dp"
-        android:alpha="0.6"
-        android:background="#4F4F54"
-        android:gravity="center_horizontal|center_vertical"
-        android:textAppearance="@style/Bubble.TextAppearance.Dark"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/b_map_View"
+                app:layout_constraintVertical_bias="0.0">
 
-    <View
-        android:id="@+id/view_attribute"
-        android:layout_width="412dp"
-        android:layout_height="202dp"
-        android:layout_marginTop="300dp"
-        android:background="#FFC107"
-        android:orientation="horizontal"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/b_map_View"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+                <Button
+                    android:id="@+id/but_Loc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/location"
+                    tools:ignore="ButtonStyle" />
 
-    <!--    <TableLayout-->
-    <!--        android:id="@+id/tableLayout"-->
-    <!--        android:layout_width="265dp"-->
-    <!--        android:layout_height="215dp"-->
-    <!--        android:layout_marginStart="48dp"-->
-    <!--        android:layout_marginTop="160dp"-->
-    <!--        android:layout_marginEnd="48dp"-->
-    <!--        android:background="#FCF8F8"-->
-    <!--        android:orientation="vertical"-->
+                <!--        <Button-->
+                <!--            android:id="@+id/but_RoutrPlan"-->
+                <!--            android:layout_width="wrap_content"-->
+                <!--            android:layout_height="wrap_content"-->
+                <!--            android:layout_weight="1"-->
+                <!--            android:text="@string/plan"-->
+                <!--            android:visibility="visible"-->
+                <!--            tools:ignore="ButtonStyle" />-->
+
+                <Button
+                    android:id="@+id/but_Attribute"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/attribute"
+                    tools:ignore="ButtonStyle" />
+
+                <Button
+                    android:id="@+id/but_Command"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/command"
+                    tools:ignore="ButtonStyle" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/view_attribute"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:layout_below="@id/linearLayout"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="341dp"
+                android:alpha="0.75"
+                android:background="@android:color/darker_gray"
+                android:scrollbars="vertical"
+                android:singleLine="false"
+                android:textAppearance="@style/ClusterIcon.TextAppearance"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </RelativeLayout>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+    <!--    <ListView-->
+    <!--        android:id="@+id/ble_list_view"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_marginTop="44dp"-->
+    <!--        android:layout_marginBottom="1dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
     <!--        app:layout_constraintEnd_toEndOf="parent"-->
     <!--        app:layout_constraintStart_toStartOf="parent"-->
     <!--        app:layout_constraintTop_toTopOf="parent">-->
-
-    <!--        <TableRow-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:orientation="vertical">-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/locationTime"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:text="@string/locationTime" />-->
-
-    <!--        </TableRow>-->
-
-    <!--        <TableRow-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="match_parent">-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/communicateTime"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:text="@string/communicateTime" />-->
-    <!--        </TableRow>-->
-
-    <!--        <TableRow-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="match_parent">-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/status"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:text="@string/status" />-->
-    <!--        </TableRow>-->
-
-    <!--        <TableRow-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="match_parent">-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/battery"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:text="@string/battery" />-->
-    <!--        </TableRow>-->
-
-    <!--        <TableRow-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="match_parent">-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/locationModes"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:text="@string/locationModes" />-->
-    <!--        </TableRow>-->
-
-    <!--        <TableRow-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="match_parent">-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/direction"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:text="@string/direction" />-->
-    <!--        </TableRow>-->
-
-    <!--        <TableRow-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="match_parent">-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/speed"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:text="@string/speed" />-->
-    <!--        </TableRow>-->
-
-    <!--        <TableRow-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="match_parent">-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/address"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:text="@string/address" />-->
-    <!--        </TableRow>-->
-
-    <!--        <TableRow-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="match_parent"-->
-    <!--            android:layout_marginTop="20dp">-->
-    <!--            <LinearLayout-->
-    <!--                android:id="@+id/linearLayout"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:background="@android:color/white"-->
-    <!--                android:orientation="horizontal">-->
-
-    <!--                <Button-->
-    <!--                    android:id="@+id/but_Loc"-->
-    <!--                    android:layout_width="wrap_content"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:layout_weight="1"-->
-    <!--                    android:text="@string/location"-->
-    <!--                    tools:ignore="ButtonStyle" />-->
-
-    <!--                <Button-->
-    <!--                    android:id="@+id/but_RoutrPlan"-->
-    <!--                    android:layout_width="wrap_content"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:layout_weight="1"-->
-    <!--                    android:text="@string/plan"-->
-    <!--                    android:visibility="visible"-->
-    <!--                    tools:ignore="ButtonStyle" />-->
-
-    <!--                <Button-->
-    <!--                    android:id="@+id/but_Attribute"-->
-    <!--                    android:layout_width="wrap_content"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:layout_weight="1"-->
-    <!--                    android:text="@string/attribute"-->
-    <!--                    tools:ignore="ButtonStyle" />-->
-
-    <!--                <Button-->
-    <!--                    android:id="@+id/but_Command"-->
-    <!--                    android:layout_width="wrap_content"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:layout_weight="1"-->
-    <!--                    android:text="@string/command"-->
-    <!--                    tools:ignore="ButtonStyle" />-->
-    <!--            </LinearLayout>-->
-    <!--            -->
-    <!--        </TableRow>-->
-    <!--    </TableLayout>-->
+    <!--    </ListView>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
