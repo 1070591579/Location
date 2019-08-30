@@ -14,9 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -50,6 +52,7 @@ import com.baidu.mapapi.search.route.WalkingRouteResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The type Main activity.
@@ -179,7 +182,8 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SDKInitializer.initialize(getApplicationContext());
-         setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
+        androidx.appcompat.widget.Toolbar myToolbar =  findViewById(R.id.tool_bar);
         SDKInitializer.setCoordType(CoordType.BD09LL);
         /* 展示GPS定位信息 */
         mLocationClient = new LocationClient(this.getApplicationContext());
@@ -193,7 +197,22 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
         /* 获取BaiduMap实例 */
         baiduMap = mapView.getMap();
         getPermissionMethod();
+        //app logo
+        myToolbar.setLogo(R.mipmap.ic_launcher);
+        //title
+        myToolbar.setTitle("  Material Design ToolBar");
+        //sub title
+        myToolbar.setSubtitle("  ToolBar subtitle");
+        setSupportActionBar(myToolbar);
+        myToolbar.setNavigationIcon(R.mipmap.ic_launcher);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        DrawerLayout mDrawerLayout = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, myToolbar, R.string.drawer_open,
+                R.string.drawer_close);
+        mDrawerToggle.syncState();
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
+
     /** 首次进入权限验证 */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

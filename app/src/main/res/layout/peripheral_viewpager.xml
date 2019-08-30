@@ -24,7 +24,7 @@
 
         >
 
-        <android.support.v4.view.PagerTabStrip
+        <androidx.core.view.PagerTabStrip
             android:id="@+id/per_pagertab"
             android:layout_width="match_parent"
             android:layout_height="50dip"
