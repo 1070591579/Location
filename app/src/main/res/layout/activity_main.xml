@@ -9,7 +9,12 @@
 
     <include
         android:id="@+id/tool_bar"
-        layout="@layout/tool_bar" />
+        layout="@layout/tool_bar"
+        app:layout_constraintBottom_toTopOf="@+id/drawer_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
@@ -109,30 +114,26 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/leftScroll"
             android:layout_width="200sp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:background="#aaaaaa"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <ListView
+                android:id="@+id/ble_list_view"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:layout_marginTop="44dp"
+                android:layout_marginBottom="1dp"
                 android:text="@string/leftSlow"
-                android:textSize="20sp" />
-            <!--            <ListView-->
-            <!--                android:id="@+id/ble_list_view"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:layout_marginTop="44dp"-->
-            <!--                android:layout_marginBottom="1dp"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent">-->
-            <!--        </ListView>-->
-
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></ListView>
         </LinearLayout>
     </androidx.drawerlayout.widget.DrawerLayout>
 

@@ -200,9 +200,9 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
         //app logo
         myToolbar.setLogo(R.mipmap.ic_launcher);
         //title
-        myToolbar.setTitle("  Material Design ToolBar");
+        myToolbar.setTitle("  野外人员管理");
         //sub title
-        myToolbar.setSubtitle("  ToolBar subtitle");
+        myToolbar.setSubtitle("  阳光");
         setSupportActionBar(myToolbar);
         myToolbar.setNavigationIcon(R.mipmap.ic_launcher);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
