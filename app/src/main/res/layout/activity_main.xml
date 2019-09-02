@@ -113,28 +113,37 @@
 
         </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/leftScroll"
-            android:layout_width="200sp"
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/design_nav_view"
+            android:layout_width="250sp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="#aaaaaa"
-            android:orientation="vertical">
+            android:background="@color/material_drawer_secondary_text"
+            android:orientation="vertical"
+            app:headerLayout="@layout/nav_heder_layout"
+            app:menu="@menu/menu" />
+<!--        <LinearLayout-->
+<!--            android:id="@+id/leftMenu"-->
+<!--            android:layout_width="250sp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_gravity="start"-->
+<!--            android:background="#aaaaaa"-->
+<!--            android:orientation="vertical">-->
 
-            <ListView
-                android:id="@+id/ble_list_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginTop="44dp"
-                android:layout_marginBottom="1dp"
-                android:text="@string/leftSlow"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></ListView>
-        </LinearLayout>
+<!--            <ListView-->
+<!--                android:id="@+id/ble_list_view"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginTop="44dp"-->
+<!--                android:layout_marginBottom="1dp"-->
+<!--                android:text="@string/leftSlow"-->
+<!--                android:textSize="20sp"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"></ListView>-->
+<!--        </LinearLayout>-->
     </androidx.drawerlayout.widget.DrawerLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -103,4 +103,7 @@
     <string name="leftSlow">左侧滑界面</string>
     <string name="drawer_open">抽屉打开</string>
     <string name="drawer_close">抽屉关闭</string>
+    <string name="name">LiangLiang</string>
+    <string name="email">1634475153@qq.com</string>
+    <string name="todo">命令信息</string>
 </resources>

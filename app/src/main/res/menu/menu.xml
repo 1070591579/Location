@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.location.MainActivity">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/action_scan"
+            android:icon="@drawable/scan"
+            android:orderInCategory="100"
+            android:title="@string/scan"
+            app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/action_setting"
+            android:icon="@drawable/set"
+            android:orderInCategory="100"
+            android:title="@string/main_setting"
+            app:showAsAction="never" />
+        <item
+
+            android:id="@+id/action_message"
+            android:icon="@drawable/message"
+            android:orderInCategory="100"
+            android:title="@string/main_message"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_security"
+            android:icon="@drawable/safe"
+            android:orderInCategory="100"
+            android:title="@string/main_security"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_sports"
+            android:icon="@drawable/run"
+            android:orderInCategory="100"
+            android:title="@string/main_sports"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_health"
+            android:icon="@drawable/health"
+            android:orderInCategory="100"
+            android:title="@string/main_health"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_cheers"
+            android:icon="@drawable/cup"
+            android:orderInCategory="100"
+            android:title="@string/main_cups"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_pushmessage"
+            android:icon="@drawable/info"
+            android:orderInCategory="100"
+            android:title="@string/main_push"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_rawdata"
+            android:icon="@drawable/ios_git_pull_request"
+            android:orderInCategory="100"
+            android:title="@string/main_rawdata"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_clear"
+            android:icon="@drawable/clear"
+            android:orderInCategory="100"
+            android:title="@string/main_clear"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_disconn"
+            android:icon="@drawable/disconnect"
+            android:orderInCategory="100"
+            android:title="@string/main_disconnected"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_connect"
+            android:icon="@drawable/connect"
+            android:orderInCategory="100"
+            android:title="@string/main_connected"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_rssi"
+            android:icon="@drawable/connect"
+            android:orderInCategory="100"
+            android:title="@string/main_connected"
+            app:showAsAction="never" />
+<!--        <item-->
+<!--            android:id="@+id/nav_menu_call"-->
+<!--            android:icon="@drawable/nav_menu_call"-->
+<!--            app:itemIconTint="@color/blue"-->
+<!--            app:itemBackground="@color/colorAccent"-->
+<!--            app:itemTextColor=""-->
+<!--            android:title="Call" />-->
+
+    </group>
+
+
+</menu>

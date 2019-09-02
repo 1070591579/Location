@@ -49,6 +49,7 @@ import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,7 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
     private BaiduMap baiduMap;
     private Context context;
     private TextView mTvLog;
+    private NavigationView navView;
     /** 定位相关 经纬度信息 */
     private double mLatitude ;
     private double mLongtitude;
@@ -192,13 +194,14 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
         /* 初始化图标 */
         mIconLocation = BitmapDescriptorFactory.fromResource(R.drawable.navi_map_gps);
         this.context = this;
+        navView = findViewById(R.id.design_nav_view);
         mapView = findViewById(R.id.b_map_View);
         mTvLog = findViewById(R.id.view_attribute);
         /* 获取BaiduMap实例 */
         baiduMap = mapView.getMap();
         getPermissionMethod();
         //app logo
-        myToolbar.setLogo(R.mipmap.ic_launcher);
+        myToolbar.setLogo(R.mipmap.ic_launcher_round);
         //title
         myToolbar.setTitle("  野外人员管理");
         //sub title
