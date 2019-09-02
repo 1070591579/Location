@@ -119,9 +119,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:background="@color/material_drawer_secondary_text"
-            android:orientation="vertical"
-            app:headerLayout="@layout/nav_heder_layout"
-            app:menu="@menu/menu" />
+            android:orientation="vertical"/>
 <!--        <LinearLayout-->
 <!--            android:id="@+id/leftMenu"-->
 <!--            android:layout_width="250sp"-->

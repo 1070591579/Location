@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="180dp"
     android:layout_marginTop="54dp"
-    android:background="@mipmap/head_backgroud"
-    android:paddingTop="54dp">
+    android:background="@mipmap/head_backgroud">
 
 
     <LinearLayout
         android:id="@+id/user_pic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/user_email"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="65dp"
+        android:gravity="center_horizontal|center_vertical"
         android:orientation="vertical">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -29,28 +30,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="80dp"
-        android:orientation="vertical">
+        android:layout_marginTop="126dp"
+        android:orientation="vertical"
+        android:paddingStart="12dp">
 
         <TextView
-            android:id="@+id/nav_tv_username"
+            android:id="@+id/nav_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/name"
             android:textColor="@color/material_drawer_dark_background"
             android:textSize="14sp" />
+
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/user.email"
+        android:id="@+id/user_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="100dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="154dp"
+        android:orientation="horizontal"
+        android:paddingStart="12dp">
 
         <TextView
-            android:id="@+id/nav_tv_mail"
+            android:id="@+id/nav_usermail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/email"
@@ -58,7 +62,7 @@
             android:textSize="14sp" />
 
         <ImageView
-            android:id="@+id/image_btn"
+            android:id="@+id/image_three_arrow"
             android:layout_width="112dp"
             android:layout_height="match_parent"
             android:contentDescription="@string/todo"

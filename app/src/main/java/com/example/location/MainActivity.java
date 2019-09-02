@@ -8,8 +8,11 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,13 +58,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * The type Main activity.
  *
  * @param <mInfoWindow> the type parameter
  * @author Administrator
  */
-public class MainActivity<mInfoWindow> extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity<mInfoWindow> extends AppCompatActivity implements View.OnClickListener, MenuItem.OnMenuItemClickListener{
 
     private MapView mapView;
     private BaiduMap baiduMap;
@@ -194,12 +199,14 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
         /* 初始化图标 */
         mIconLocation = BitmapDescriptorFactory.fromResource(R.drawable.navi_map_gps);
         this.context = this;
-        navView = findViewById(R.id.design_nav_view);
         mapView = findViewById(R.id.b_map_View);
         mTvLog = findViewById(R.id.view_attribute);
+        navView = findViewById(R.id.design_nav_view);
+        //引入header和menu
+        navView.inflateHeaderView(R.layout.nav_header);
+        navView.inflateMenu(R.menu.menu);
         /* 获取BaiduMap实例 */
         baiduMap = mapView.getMap();
-        getPermissionMethod();
         //app logo
         myToolbar.setLogo(R.mipmap.ic_launcher_round);
         //title
@@ -214,6 +221,7 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
                 R.string.drawer_close);
         mDrawerToggle.syncState();
         mDrawerLayout.addDrawerListener(mDrawerToggle);
+        getPermissionMethod();
     }
 
     /** 首次进入权限验证 */
@@ -264,6 +272,7 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
         initLocation();
         initRoutePlan();
         button();
+        headMenuItem();
         /** 开始定位，定位结果会回调到前面注册的监听器中 */
         mLocationClient.start();
     }
@@ -337,8 +346,51 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
         mbut_Attribute.setOnClickListener(this);
         mbut_Command.setOnClickListener(this);
     }
+    /** 侧滑抽屉页面头部菜单栏点击事件
+     * 人物头像
+     * 用户姓名
+     * 用户邮箱
+     * 三角标志
+     * */
+    private void headMenuItem() {
+        //获取头部布局
+        View navHeaderView = navView.getHeaderView(0);
+        /* 人物头像 */
+        CircleImageView cirIViewHead =  navHeaderView.findViewById(R.id.nav_cirI_head);
+        /* 用户姓名 */
+        TextView userName = navHeaderView.findViewById(R.id.nav_username);
+        /* 用户邮箱 */
+        TextView userEmail = navHeaderView.findViewById(R.id.nav_usermail);
+        /* 三角标志 */
+        ImageView iamgeThreeArrow = navHeaderView.findViewById(R.id.image_three_arrow);
+        /*Click Event*/
+        cirIViewHead.setOnClickListener(this);
+        userName.setOnClickListener(this);
+        userEmail.setOnClickListener(this);
+        iamgeThreeArrow.setOnClickListener(this);
+    }
+    /** 侧滑抽屉页面菜单栏点击事件
+     * 人物头像
+     * 用户姓名
+     * 用户邮箱
+     * 三角标志
+     * */
+    private void MenuItem() {
+        Menu menu = navView.getMenu();
+        for (int i=0;i<menu.size();i++)
+        {
+            MenuItem item = menu.getItem(i);
+            item.setOnMenuItemClickListener(this);
+        }
+    }
+
     @Override
-    public void onClick(View v) {
+    public boolean onMenuItemClick(MenuItem item) {
+        Toast.makeText(MainActivity.this,item.getTitle(),Toast.LENGTH_SHORT).show();
+        return false;
+    }
+
+    @Override public void onClick(View v) {
         SDKInitializer.initialize(this.getApplicationContext());
         switch (v.getId()) {
             case R.id.but_Loc: {
@@ -357,9 +409,43 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
                 ShowViewCommand();
                 break;
             }
+            case R.id.nav_cirI_head: {
+                headerClick();
+                break;
+            }
+            case R.id.nav_username: {
+                userNameClick();
+                break;
+            }
+            case R.id.nav_usermail: {
+                userMailClick();
+                break;
+            }
+            case R.id.image_three_arrow: {
+                arrowClick();
+                break;
+            }
             default:
         }
     }
+
+    private void arrowClick() {
+        Toast.makeText(MainActivity.this,"arrow",Toast.LENGTH_SHORT).show();
+    }
+
+    private void userMailClick() {
+        Toast.makeText(MainActivity.this,"userMail",Toast.LENGTH_SHORT).show();
+    }
+
+    private void userNameClick() {
+        Toast.makeText(MainActivity.this,"userName",Toast.LENGTH_SHORT).show();
+    }
+
+    private void headerClick() {
+        Toast.makeText(MainActivity.this,"Head",Toast.LENGTH_SHORT).show();
+        MenuItem();
+    }
+
     private void initLocation(){
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
@@ -510,4 +596,7 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
         Toast.makeText(getApplicationContext(), "按钮被点击了", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "ShowViewCommand+进入函数");
     }
+
+
+
 }
