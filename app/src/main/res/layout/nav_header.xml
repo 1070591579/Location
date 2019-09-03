@@ -63,8 +63,10 @@
 
         <ImageView
             android:id="@+id/image_three_arrow"
-            android:layout_width="112dp"
-            android:layout_height="match_parent"
+            android:layout_width="16dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginLeft="60dp"
             android:contentDescription="@string/todo"
             android:src="@drawable/three_arrow" />
 

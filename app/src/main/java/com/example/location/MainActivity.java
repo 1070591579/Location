@@ -1,11 +1,14 @@
 package com.example.location;
 
 import android.Manifest;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -13,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.PagerTabStrip;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -55,18 +61,20 @@ import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import wxz.us.ble.central.BLEDevice;
+import wxz.us.ble.central.BLEManager;
 
 /**
  * The type Main activity.
- *
- * @param <mInfoWindow> the type parameter
  * @author Administrator
  */
-public class MainActivity<mInfoWindow> extends AppCompatActivity implements View.OnClickListener, MenuItem.OnMenuItemClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, MenuItem.OnMenuItemClickListener{
 
     private MapView mapView;
     private BaiduMap baiduMap;
@@ -78,10 +86,7 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
     private double mLongtitude;
     private boolean isFirstLocate = true;
     /**日志的TAG */
-    private static final String TAG;
-    static {
-        TAG = "BlueActivity";
-    }
+    private static final String TAG = "MainActivity";
     /** 覆盖物 */
     private Marker marker = null;
     private MyLocationListener myListener = new MyLocationListener();
@@ -94,105 +99,48 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
     private float mcurrentx ;
     private RoutePlanSearch mSearch;
     private DrawerLayout mDrawerLayout;
+    private float startDegrees = 0;
+    private float endDegrees = 180;
 
+    private BluetoothManager myBluetoothManager;
+    private BluetoothAdapter myBluetoothAdapter;
+    private static final int REQUEST_ENABLE_BLUETOOTH = 1001;
+    private PagerTabStrip pagerTabStrip;
+    private CustomViewPager per_viewPager;
+    private PerAdapter perAdater;
+    private BLEManager mBleManager;
+    private ListView lv;
+    private TextView tv_hint;
+    private ProgressBar pbar;
+    private ShowBLEAdapter mViewAdapter;
+    private MenuItem itemSacn;
+    /* 是否正在扫描 */
+    private boolean scaning = false;
+    /* 每个设备Key */
+    private List<String> addressView;
+    /* 当前正在操作的设备 */
+    private BLEDevice dBleDevice;
+    /* 操作当前的设备 */
+    private String dAddress;
+    private ArrayList<BLEDevice> mBLEList;
+    public boolean is_need_toWriteFile=false;
     /**
-     * Instantiates a new Main activity.
+     * key is the MAC Address 多设备 每一个BLEDevice实例代表一个设备
+     * 把所有的设备即BLEDevice实例放到一个集合里面，通过address 来获得对应的设备，做相应的操作
      */
-    public MainActivity() {
-    }
+    Map<String, BLEDevice> mBLEDevices = new LinkedHashMap<>();
+    private List<DeviceFragment> mFragments = new ArrayList<>();
+    Map<String, Handler> mHandlers = new LinkedHashMap<>();
+    private Map<String, Integer> rssiMap = new LinkedHashMap<>();
+    private Map<String, String> uuidMap = new LinkedHashMap<>();
 
-    /**
-     * The type My location listener.
-     */
-    public class MyLocationListener extends BDAbstractLocationListener {
-        @Override
-        public void onReceiveLocation(final BDLocation bdLocation) {
-            // Log.d(TAG, "BDLocationListener -> onReceiveLocation");
-            /** mapView 销毁后不在处理新接收的位置 */
-            if (bdLocation == null || mapView == null) {
-                Log.d(TAG, "BDLocation or mapView is null");
-                mTvLog.setText("定位失败...");
-                return;
-            }
-            // isFirstLocate变量为了防止多次调用animateMapStatus()方法，因为将地图移动到当前位置只需要在程序第一次定位时调用即可
-            if(isFirstLocate){
-                //设置地图缩放级别和将地图移动到当前经纬度
-                LatLng ll = new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude());
-                MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
-                baiduMap.animateMapStatus(update);
-                update = MapStatusUpdateFactory.zoomTo(16f);
-                baiduMap.animateMapStatus(update);
-                isFirstLocate = false;
-            }
-            /* 设备在地图上显示的位置应随着设备的移动而实时改变，执行多次 */
-            MyLocationData locData = new MyLocationData.Builder()
-                    .accuracy(bdLocation.getRadius())
-                    /* 此处设置开发者获取到的方向信息，顺时针0-360 */
-                    .direction(mcurrentx).latitude(bdLocation.getLatitude())
-                    .longitude(bdLocation.getLongitude()).build();
-            baiduMap.setMyLocationData(locData);
-            /* 设置自定义图标 */
-            MyLocationConfiguration config = new
-                    MyLocationConfiguration(
-                    MyLocationConfiguration.LocationMode.NORMAL, true, mIconLocation);
-            baiduMap.setMyLocationConfiguration(config);
-            /* 更新经纬度 */
-            mLatitude = bdLocation.getLatitude();
-            mLongtitude = bdLocation.getLongitude();
-            /* 获取定位精度，默认值为0.0f */
-            float radius = bdLocation.getRadius();
-            /* 获取定位类型、定位错误返回码，具体信息可参照类参考中BDLocation类中的说明 */
-            int errorCode = bdLocation.getLocType();
-
-            mTvLog.setText("");
-            //获取国家
-            String country = bdLocation.getCountry();
-            //获取省份
-            String province = bdLocation.getProvince();
-            //获取城市
-            String city = bdLocation.getCity();
-            //获取区县
-            String district = bdLocation.getDistrict();
-            //获取街道信息
-            String street = bdLocation.getStreet();
-            //获取位置描述信息
-            String locationDescribe = bdLocation.getLocationDescribe();
-            //获取详细地址信息
-            String addr = bdLocation.getAddrStr();
-            textViewAddText(mTvLog,"    纬度: "+ mLatitude +"\t\t经度: " + mLongtitude);
-            textViewAddText(mTvLog,"    国家: "+ country   +"\t\t省份: " + province);
-            textViewAddText(mTvLog,"    城市: "+ city + "\t\t区县: "+ district);
-            textViewAddText(mTvLog,"    街道: " + street);
-            textViewAddText(mTvLog,"    位置描述: "+addr);
-            textViewAddText(mTvLog,"    详细地址: "+locationDescribe);
-            List<Poi> poiList = bdLocation.getPoiList();
-            //获取周边POI信息
-            //POI信息包括POI ID、名称等，具体信息请参照类参考中POI类的相关说明
-            if (poiList != null){
-                int cnt = 0;
-                for (Poi poi : poiList){
-                    textViewAddText(mTvLog,"    Poi: "+poi.getName());
-                    cnt++;
-                    if (cnt >= 3) {
-                        break;
-                    }
-                }
-            }
-        }
-    }
-    private void textViewAddText(TextView textView,String s){
-        if (TextUtils.isEmpty(s)) {
-            return;
-        }
-        textView.setText(textView.getText()+"\n"+s);
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SDKInitializer.initialize(getApplicationContext());
+        SDKInitializer.initialize(this.getApplicationContext());
+        SDKInitializer.setCoordType(CoordType.BD09LL);
         setContentView(R.layout.activity_main);
         androidx.appcompat.widget.Toolbar myToolbar =  findViewById(R.id.tool_bar);
-        SDKInitializer.setCoordType(CoordType.BD09LL);
         /* 展示GPS定位信息 */
         mLocationClient = new LocationClient(this.getApplicationContext());
         /* 获取到位置信息时会回调该定位监听器 */
@@ -222,6 +170,8 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
                 R.string.drawer_close);
         mDrawerToggle.syncState();
         mDrawerLayout.addDrawerListener(mDrawerToggle);
+        myBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        myBluetoothAdapter = myBluetoothManager.getAdapter();
         getPermissionMethod();
     }
 
@@ -330,6 +280,92 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
         baiduMap.setMyLocationEnabled(false);
     }
 
+    /**
+     * The type My location listener.
+     */
+    public class MyLocationListener extends BDAbstractLocationListener {
+        @Override
+        public void onReceiveLocation(final BDLocation bdLocation) {
+            // Log.d(TAG, "BDLocationListener -> onReceiveLocation");
+            /** mapView 销毁后不在处理新接收的位置 */
+            if (bdLocation == null || mapView == null) {
+                Log.d(TAG, "BDLocation or mapView is null");
+                mTvLog.setText("定位失败...");
+                return;
+            }
+            // isFirstLocate变量为了防止多次调用animateMapStatus()方法，因为将地图移动到当前位置只需要在程序第一次定位时调用即可
+            if(isFirstLocate){
+                //设置地图缩放级别和将地图移动到当前经纬度
+                LatLng ll = new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude());
+                MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
+                baiduMap.animateMapStatus(update);
+                update = MapStatusUpdateFactory.zoomTo(16f);
+                baiduMap.animateMapStatus(update);
+                isFirstLocate = false;
+            }
+            /* 设备在地图上显示的位置应随着设备的移动而实时改变，执行多次 */
+            MyLocationData locData = new MyLocationData.Builder()
+                    .accuracy(bdLocation.getRadius())
+                    /* 此处设置开发者获取到的方向信息，顺时针0-360 */
+                    .direction(mcurrentx).latitude(bdLocation.getLatitude())
+                    .longitude(bdLocation.getLongitude()).build();
+            baiduMap.setMyLocationData(locData);
+            /* 设置自定义图标 */
+            MyLocationConfiguration config = new
+                    MyLocationConfiguration(
+                    MyLocationConfiguration.LocationMode.NORMAL, true, mIconLocation);
+            baiduMap.setMyLocationConfiguration(config);
+            /* 更新经纬度 */
+            mLatitude = bdLocation.getLatitude();
+            mLongtitude = bdLocation.getLongitude();
+            /* 获取定位精度，默认值为0.0f */
+            float radius = bdLocation.getRadius();
+            /* 获取定位类型、定位错误返回码，具体信息可参照类参考中BDLocation类中的说明 */
+            int errorCode = bdLocation.getLocType();
+
+            mTvLog.setText("");
+            //获取国家
+            String country = bdLocation.getCountry();
+            //获取省份
+            String province = bdLocation.getProvince();
+            //获取城市
+            String city = bdLocation.getCity();
+            //获取区县
+            String district = bdLocation.getDistrict();
+            //获取街道信息
+            String street = bdLocation.getStreet();
+            //获取位置描述信息
+            String locationDescribe = bdLocation.getLocationDescribe();
+            //获取详细地址信息
+            String addr = bdLocation.getAddrStr();
+            textViewAddText(mTvLog,"    纬度: "+ mLatitude +"\t\t经度: " + mLongtitude);
+            textViewAddText(mTvLog,"    国家: "+ country   +"\t\t省份: " + province);
+            textViewAddText(mTvLog,"    城市: "+ city + "\t\t区县: "+ district);
+            textViewAddText(mTvLog,"    街道: " + street);
+            textViewAddText(mTvLog,"    位置描述: "+addr);
+            textViewAddText(mTvLog,"    详细地址: "+locationDescribe);
+            List<Poi> poiList = bdLocation.getPoiList();
+            //获取周边POI信息
+            //POI信息包括POI ID、名称等，具体信息请参照类参考中POI类的相关说明
+            if (poiList != null){
+                int cnt = 0;
+                for (Poi poi : poiList){
+                    textViewAddText(mTvLog,"    Poi: "+poi.getName());
+                    cnt++;
+                    if (cnt >= 3) {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    private void textViewAddText(TextView textView,String s){
+        if (TextUtils.isEmpty(s)) {
+            return;
+        }
+        textView.setText(textView.getText()+"\n"+s);
+    }
+
     /** 按钮响应事件：
      * 获取GPS定位信息
      * 路线规划
@@ -371,12 +407,7 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
         userEmail.setOnClickListener(this);
         iamgeThreeArrow.setOnClickListener(this);
     }
-    /** 侧滑抽屉页面菜单栏点击事件
-     * 人物头像
-     * 用户姓名
-     * 用户邮箱
-     * 三角标志
-     * */
+    /** 侧滑抽屉页面菜单栏点击事件 */
     private void MenuItem() {
         Menu menu = navView.getMenu();
         for (int i=0;i<menu.size();i++)
@@ -398,65 +429,116 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
     public boolean onMenuItemClick(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_scan: {
-                Toast.makeText(MainActivity.this, "action_scan", Toast.LENGTH_SHORT).show();
+                showScanClick();
                 break;
             }
             case R.id.action_setting: {
-                Toast.makeText(MainActivity.this, "action_setting", Toast.LENGTH_SHORT).show();
+                showSettingClick();
                 break;
             }
             case R.id.action_message: {
-                Toast.makeText(MainActivity.this, "action_message", Toast.LENGTH_SHORT).show();
+                showMessageClick();
                 break;
             }
             case R.id.action_security: {
-                Toast.makeText(MainActivity.this, "action_security", Toast.LENGTH_SHORT).show();
+                showSecurityClick();
                 break;
             }
             case R.id.action_sports: {
-                Toast.makeText(MainActivity.this, "action_sports", Toast.LENGTH_SHORT).show();
+
+                showSportsClick();
                 break;
             }
             case R.id.action_health: {
-                Toast.makeText(MainActivity.this, "action_health", Toast.LENGTH_SHORT).show();
+
+                showHealthClick();
                 break;
             }
             case R.id.action_cheers: {
-                Toast.makeText(MainActivity.this, "action_cheers", Toast.LENGTH_SHORT).show();
+                showCheersClick();
                 break;
             }
             case R.id.action_pushmessage: {
-                Toast.makeText(MainActivity.this, "action_pushmessage", Toast.LENGTH_SHORT).show();
+                showPushMeeageClick();
                 break;
             }
             case R.id.action_rawdata: {
-                Toast.makeText(MainActivity.this, "action_rawdata", Toast.LENGTH_SHORT).show();
+                showRawDataClick();
                 break;
             }
             case R.id.action_clear: {
-                Toast.makeText(MainActivity.this, "action_clear", Toast.LENGTH_SHORT).show();
+                showClearClick();
                 break;
             }
             case R.id.action_disconn: {
-                Toast.makeText(MainActivity.this, "action_disconn", Toast.LENGTH_SHORT).show();
+                showDisconnectClick();
                 break;
             }
             case R.id.action_connect: {
-                Toast.makeText(MainActivity.this, "action_connect", Toast.LENGTH_SHORT).show();
+                showConnectClick();
                 break;
             }
             case R.id.action_rssi: {
-                Toast.makeText(MainActivity.this, "action_rssi", Toast.LENGTH_SHORT).show();
+                showRssiClick();
                 break;
             }
             default:
             //关闭滑动菜单
             mDrawerLayout.closeDrawers();
         }
-        //选中此项
-        //item.setCheckable(true);
         return false;
+    }
 
+    private void showRssiClick() {
+        Toast.makeText(MainActivity.this, "action_rssi", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showConnectClick() {
+        Toast.makeText(MainActivity.this, "action_connect", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showDisconnectClick() {
+        Toast.makeText(MainActivity.this, "action_disconn", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showClearClick() {
+        Toast.makeText(MainActivity.this, "action_clear", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showRawDataClick() {
+        Toast.makeText(MainActivity.this, "action_rawdata", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showPushMeeageClick() {
+        Toast.makeText(MainActivity.this, "action_pushmessage", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showCheersClick() {
+        Toast.makeText(MainActivity.this, "action_cheers", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showHealthClick() {
+        Toast.makeText(MainActivity.this, "action_health", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showSportsClick() {
+        Toast.makeText(MainActivity.this, "action_sports", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showSecurityClick() {
+        Toast.makeText(MainActivity.this, "action_security", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showMessageClick() {
+        Toast.makeText(MainActivity.this, "action_message", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showSettingClick() {
+        Toast.makeText(MainActivity.this, "action_setting", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showScanClick() {
+        Toast.makeText(MainActivity.this, "action_scan", Toast.LENGTH_SHORT).show();
     }
 
     @Override public void onClick(View v) {
@@ -499,7 +581,38 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
     }
 
     private void arrowClick() {
-        Toast.makeText(MainActivity.this,"arrow",Toast.LENGTH_SHORT).show();
+        float resultDegrees = endDegrees - startDegrees;
+        if (resultDegrees > 0){
+            startDegrees = 180;
+            endDegrees = 0;
+//            Animation rotateAnimation  = new RotateAnimation(startDegrees, endDegrees, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+//            rotateAnimation.setFillAfter(true);
+//            rotateAnimation.setDuration(300);
+//            rotateAnimation.setRepeatCount(0);
+//            rotateAnimation.setInterpolator(new LinearInterpolator());
+//            ImageView rotateImage = findViewById(R.id.image_three_arrow);
+//            rotateImage.startAnimation(rotateAnimation);
+//            Menu menu = navView.getMenu();
+//            menu.setGroupVisible(R.id.menu_group_scan, true);
+//            menu.setGroupVisible(R.id.menu_group_set, true);
+//            menu.setGroupVisible(R.id.menu_group_listen, false);
+//            menu.setGroupVisible(R.id.menu_group_obthers, false);
+            Menu menu = navView.getMenu();
+            menu.clear();
+            navView.inflateMenu(R.menu.menu);
+        }
+        else if (resultDegrees < 0){
+            startDegrees = 0;
+            endDegrees = 180;
+//            Menu menu = navView.getMenu();
+//            menu.setGroupVisible(R.id.menu_group_scan, false);
+//            menu.setGroupVisible(R.id.menu_group_set, false);
+//            menu.setGroupVisible(R.id.menu_group_listen, true);
+//            menu.setGroupVisible(R.id.menu_group_obthers, true);
+            Menu menu = navView.getMenu();
+            menu.clear();
+            navView.inflateMenu(R.menu.personinfo);
+        }
     }
 
     private void userMailClick() {
