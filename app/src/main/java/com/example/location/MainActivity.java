@@ -93,6 +93,7 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
     private BitmapDescriptor mIconLocation = BitmapDescriptorFactory.fromResource(R.drawable.arrow);
     private float mcurrentx ;
     private RoutePlanSearch mSearch;
+    private DrawerLayout mDrawerLayout;
 
     /**
      * Instantiates a new Main activity.
@@ -216,7 +217,7 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
         setSupportActionBar(myToolbar);
         myToolbar.setNavigationIcon(R.mipmap.ic_launcher);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        DrawerLayout mDrawerLayout = findViewById(R.id.drawer_layout);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, myToolbar, R.string.drawer_open,
                 R.string.drawer_close);
         mDrawerToggle.syncState();
@@ -273,6 +274,7 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
         initRoutePlan();
         button();
         headMenuItem();
+        MenuItem();
         /** 开始定位，定位结果会回调到前面注册的监听器中 */
         mLocationClient.start();
     }
@@ -380,14 +382,81 @@ public class MainActivity<mInfoWindow> extends AppCompatActivity implements View
         for (int i=0;i<menu.size();i++)
         {
             MenuItem item = menu.getItem(i);
+            /* 方法一 外部注册需要this实现 MenuItem.OnMenuItemClickListener */
             item.setOnMenuItemClickListener(this);
+            /* 方法二 内部匿名函数 */
+//          item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//                @Override
+//                public boolean onMenuItemClick(MenuItem item) {
+//                    return false;
+//                }
+//            });
         }
     }
 
     @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        Toast.makeText(MainActivity.this,item.getTitle(),Toast.LENGTH_SHORT).show();
+    public boolean onMenuItemClick(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_scan: {
+                Toast.makeText(MainActivity.this, "action_scan", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.action_setting: {
+                Toast.makeText(MainActivity.this, "action_setting", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.action_message: {
+                Toast.makeText(MainActivity.this, "action_message", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.action_security: {
+                Toast.makeText(MainActivity.this, "action_security", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.action_sports: {
+                Toast.makeText(MainActivity.this, "action_sports", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.action_health: {
+                Toast.makeText(MainActivity.this, "action_health", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.action_cheers: {
+                Toast.makeText(MainActivity.this, "action_cheers", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.action_pushmessage: {
+                Toast.makeText(MainActivity.this, "action_pushmessage", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.action_rawdata: {
+                Toast.makeText(MainActivity.this, "action_rawdata", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.action_clear: {
+                Toast.makeText(MainActivity.this, "action_clear", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.action_disconn: {
+                Toast.makeText(MainActivity.this, "action_disconn", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.action_connect: {
+                Toast.makeText(MainActivity.this, "action_connect", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.action_rssi: {
+                Toast.makeText(MainActivity.this, "action_rssi", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            default:
+            //关闭滑动菜单
+            mDrawerLayout.closeDrawers();
+        }
+        //选中此项
+        //item.setCheckable(true);
         return false;
+
     }
 
     @Override public void onClick(View v) {
