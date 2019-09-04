@@ -2417,7 +2417,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             }
             case R.id.action_connect: {
-                updateList(dAddress, "断开连接...");
+                updateList(dAddress, "开始连接...");
                 if (dBleDevice != null) {
                     showConnectClick();
                 }
@@ -2444,7 +2444,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void showConnectClick() {
         Toast.makeText(MainActivity.this, "action_connect", Toast.LENGTH_SHORT).show();
-        dBleDevice.disconnect();
+        dBleDevice.connect();
     }
 
     private void showDisconnectClick() {

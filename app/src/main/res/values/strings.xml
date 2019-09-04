@@ -15,6 +15,7 @@
     <string name="main_clear">清除信息</string>
     <string name="main_disconnected">断开连接</string>
     <string name="main_connected">连接</string>
+    <string name= "main_rssi" > 信号 </string >
     <string name="search_device">扫描设备</string>
     <string name="retry">重试</string>
     <string name="device_no">找不到设备</string>

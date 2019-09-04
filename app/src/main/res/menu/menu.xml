@@ -84,9 +84,9 @@
             app:showAsAction="never" />
         <item
             android:id="@+id/action_rssi"
-            android:icon="@drawable/connect"
+            android:icon="@drawable/singnal"
             android:orderInCategory="100"
-            android:title="@string/main_connected"
+            android:title="@string/main_rssi"
             app:showAsAction="never" />
     </group>
 </menu>

@@ -288,7 +288,7 @@ public class DeviceListFragment extends Fragment {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.list_fragment, container,
                     false);
-            mListView = (ListView) rootView.findViewById(R.id.device_list_view);
+            mListView = rootView.findViewById(R.id.device_list_view);
             adapter = new MyAdapter(getActivity().getApplicationContext());
             mListView.setAdapter(adapter);
         }

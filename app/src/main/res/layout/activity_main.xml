@@ -48,7 +48,7 @@
             </com.baidu.mapapi.map.MapView>
 
             <LinearLayout
-                android:id="@+id/linearLayout"
+                android:id="@+id/btn_group"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:layout_marginTop="54dp"
@@ -95,20 +95,6 @@
 
             </LinearLayout>
 
-            <com.example.location.CustomViewPager
-                android:id="@+id/per_viewPager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center">
-
-                <androidx.viewpager.widget.PagerTabStrip
-                    android:id="@+id/per_pagertab"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="top" />
-
-            </com.example.location.CustomViewPager>
-
             <TextView
                 android:id="@+id/view_attribute"
                 android:layout_width="match_parent"
@@ -125,6 +111,45 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
+            <LinearLayout
+                android:id="@+id/log_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btn_group"
+                android:orientation="vertical"
+                tools:visibility="invisible">
+
+                <ListView
+                    android:id="@+id/device_list_view"
+                    style="@style/Widget.AppCompat.ListView.Menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@color/design_default_color_background"
+                    android:dividerHeight="1dp"></ListView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:gravity="center"
+                    android:text="@string/device_log"
+                    android:textAppearance="@style/ClusterIcon.TextAppearance" />
+
+            </LinearLayout>
+
+            <com.example.location.CustomViewPager
+                android:id="@+id/per_viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+
+                <androidx.viewpager.widget.PagerTabStrip
+                    android:id="@+id/per_pagertab"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="top" />
+
+            </com.example.location.CustomViewPager>
+
         </RelativeLayout>
 
         <com.google.android.material.navigation.NavigationView
@@ -134,28 +159,6 @@
             android:layout_gravity="start"
             android:background="@color/md_grey_700"
             android:orientation="vertical" />
-        <!--        <LinearLayout-->
-<!--            android:id="@+id/leftMenu"-->
-<!--            android:layout_width="250sp"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_gravity="start"-->
-<!--            android:background="#aaaaaa"-->
-<!--            android:orientation="vertical">-->
-
-<!--            <ListView-->
-<!--                android:id="@+id/ble_list_view"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:layout_marginTop="44dp"-->
-<!--                android:layout_marginBottom="1dp"-->
-<!--                android:text="@string/leftSlow"-->
-<!--                android:textSize="20sp"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent"></ListView>-->
-<!--        </LinearLayout>-->
     </androidx.drawerlayout.widget.DrawerLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
