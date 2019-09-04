@@ -1,6 +1,6 @@
 package com.example.location;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import java.io.File;
@@ -42,7 +41,7 @@ public class DeviceFragment extends Fragment {
     private BLEDevice bleDevice;
     private View rootView = null;// 缓存Fragment com.us.view
     public DeviceFragment mDeviceFragment;
-    private BlueActivity mActivity;
+    private MainActivity mActivity;
     public UpdateChartsListener mUpdateChartsListener;
     private String TAG = "DeviceFragment";
     FileOutputStream fos;
@@ -63,9 +62,9 @@ public class DeviceFragment extends Fragment {
     };
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.mActivity = (BlueActivity) activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.mActivity = (MainActivity) context;
     }
 
     public DeviceFragment(BLEDevice device) {
@@ -107,9 +106,9 @@ public class DeviceFragment extends Fragment {
                              Bundle savedInstanceState) {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.device_viewpager, container, false);
-            device_viewpager = (ViewPager) rootView.findViewById(R.id.device_viewPager);
+            device_viewpager = rootView.findViewById(R.id.device_viewPager);
             device_viewpager.setOffscreenPageLimit(2);
-            device_viewpager.setAdapter((PagerAdapter) adapter);
+            device_viewpager.setAdapter(adapter);
 //            device_viewpager.onTouchEvent()
         }
         ViewGroup parent = (ViewGroup) rootView.getParent();
@@ -124,7 +123,8 @@ public class DeviceFragment extends Fragment {
 
     public void initfile() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-        Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+        // 获取当前时间
+        Date curDate = new Date(System.currentTimeMillis());
         String str = formatter.format(curDate);
         final String path = "/sdcard/ustone/";
         File dir = new File(path);
@@ -576,6 +576,7 @@ public class DeviceFragment extends Fragment {
             }
         });
     }
+
 
 
 }

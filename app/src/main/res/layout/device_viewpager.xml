@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <androidx.core.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/device_viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="3dp"
         android:paddingRight="3dp"
         android:layout_gravity="center">
-    </androidx.core.view.ViewPager>
+    </androidx.viewpager.widget.ViewPager>
 
 </LinearLayout>

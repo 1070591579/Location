@@ -16,20 +16,20 @@
 
     <!--     </android.support.v4.view.ViewPager> -->
 
-    <com.example.location.CustomViewPager
-        android:id="@+id/per_viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
+<!--    <com.example.location.CustomViewPager-->
+<!--        android:id="@+id/per_viewPager"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_gravity="center"-->
 
-        >
+<!--        >-->
 
-        <androidx.core.view.PagerTabStrip
-            android:id="@+id/per_pagertab"
-            android:layout_width="match_parent"
-            android:layout_height="50dip"
-            android:layout_gravity="top" />
+<!--        <androidx.core.view.PagerTabStrip-->
+<!--            android:id="@+id/per_pagertab"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dip"-->
+<!--            android:layout_gravity="top" />-->
 
-    </com.example.location.CustomViewPager>
+<!--    </com.example.location.CustomViewPager>-->
 
 </RelativeLayout>

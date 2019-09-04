@@ -1,7 +1,6 @@
 package com.example.location;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,7 +24,7 @@ import wxz.us.ble.central.L;
 public class DeviceListFragment extends Fragment {
     private ListView mListView;
     private List<String> mList;
-    private BlueActivity mActivity;
+    private MainActivity mActivity;
     private MyAdapter adapter;
     String address;
     private BLEDevice mBLEDevice;
@@ -75,9 +74,9 @@ public class DeviceListFragment extends Fragment {
     };
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.mActivity = (BlueActivity) activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.mActivity = (MainActivity) context;
         mActivity.setHandler(address, mHandler);
     }
 

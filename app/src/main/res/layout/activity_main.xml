@@ -95,6 +95,20 @@
 
             </LinearLayout>
 
+            <com.example.location.CustomViewPager
+                android:id="@+id/per_viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+
+                <androidx.viewpager.widget.PagerTabStrip
+                    android:id="@+id/per_pagertab"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="top" />
+
+            </com.example.location.CustomViewPager>
+
             <TextView
                 android:id="@+id/view_attribute"
                 android:layout_width="match_parent"
