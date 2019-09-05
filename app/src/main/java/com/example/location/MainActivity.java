@@ -83,6 +83,9 @@ import wxz.us.ble.central.BLEManager;
 import wxz.us.ble.central.L;
 import wxz.us.ble.listener.ScanListener;
 
+import static com.example.location.Image.*;
+import static com.example.location.UtilsTools.*;
+
 /**
  * The type Main activity.
  *
@@ -500,19 +503,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 switch (which) {
                     case 0: {
-                        byte[] time = UtilsTools.nowTimeToBytes();
+                        byte[] time = nowTimeToBytes();
                         updateList(dAddress, "cmd:0x01," + commants[0] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(time)));
+                                + Arrays.toString(byteTo16String(time)));
                         write(dAddress, time.length, 0x01, time);
                         break;
                     }
                     case 1: {
                         byte[] result = new byte[15];
-                        byte[] alarmToBytes1 = UtilsTools.alarmToBytes(2017, 6, 13, 21, 01,
+                        byte[] alarmToBytes1 = alarmToBytes(2017, 6, 13, 21, 01,
                                 1, 2, 1);
-                        byte[] alarmToBytes2 = UtilsTools.alarmToBytes(2017, 2, 2, 2, 2,
+                        byte[] alarmToBytes2 = alarmToBytes(2017, 2, 2, 2, 2,
                                 2, 127, 1);
-                        byte[] alarmToBytes3 = UtilsTools.alarmToBytes(2017, 3, 3, 3, 3,
+                        byte[] alarmToBytes3 = alarmToBytes(2017, 3, 3, 3, 3,
                                 3, 127, 0);
                         System.arraycopy(alarmToBytes1, 0, result, 0,
                                 alarmToBytes1.length);
@@ -521,28 +524,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         System.arraycopy(alarmToBytes3, 0, result, 10,
                                 alarmToBytes3.length);
                         updateList(dAddress, "cmd:0x02," + commants[1] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(result)));
+                                + Arrays.toString(byteTo16String(result)));
                         write(dAddress, result.length, 0x02, result);
                         break;
                     }
                     case 2: {
                         byte[] alar = {0x01};
                         updateList(dAddress, "cmd:0x03," + commants[2] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(alar)));
+                                + Arrays.toString(byteTo16String(alar)));
                         write(dAddress, alar.length, 0x03, alar);
                         break;
                     }
                     case 3: {
-                        byte[] b = UtilsTools.intToByteArray(5000);
+                        byte[] b = intToByteArray(5000);
                         updateList(dAddress, "cmd:0x04," + commants[3] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(b)));
+                                + Arrays.toString(byteTo16String(b)));
                         write(dAddress, b.length, 0x04, b);
                         break;
                     }
                     case 4: {
-                        byte[] user = UtilsTools.userToByte(1, 20, 180, 60);
+                        byte[] user = userToByte(1, 20, 180, 60);
                         updateList(dAddress, "cmd:0x05," + commants[4] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(user)));
+                                + Arrays.toString(byteTo16String(user)));
                         write(dAddress, user.length, 0x05, user);
                         break;
                     }
@@ -552,7 +555,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         byte[] d = new byte[4];
                         d[0] = (byte) (((set0 << 2) & 0xff) | b0);
                         updateList(dAddress, "cmd:0x06," + commants[5] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(d)));
+                                + Arrays.toString(byteTo16String(d)));
                         write(dAddress, d.length, 0x06, d);
                         break;
                     }
@@ -561,16 +564,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         int time1 = 2;//一般30分钟 间隔时间小朱测试 改成了2分钟
                         int interval = 1;//一般5分钟 间隔时间小朱测试 改成了1分钟
 
-                        byte[] lgSit = UtilsTools.longSitByte(open, time1, interval);
+                        byte[] lgSit = longSitByte(open, time1, interval);
                         updateList(dAddress, "cmd:0x07," + commants[6] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(lgSit)));
+                                + Arrays.toString(byteTo16String(lgSit)));
                         write(dAddress, lgSit.length, 0x07, lgSit);
                         break;
                     }
                     case 7:{
                         byte[] r = {0x00};
                         updateList(dAddress, "cmd:0x09," + commants[7] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(r)));
+                                + Arrays.toString(byteTo16String(r)));
                         write(dAddress, r.length, 0x09, r);
                         break;
                     }
@@ -606,17 +609,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case 9: {// 图片设置
                         int index1 = 1; // 组编号
                         byte[] data = new byte[128 * 5];
-                        System.arraycopy(UtilsTools.intArraysTobyteArrays(com.example.location.Image.Home),
+                        System.arraycopy(intArraysTobyteArrays(Home),
                                 0, data, 128 * 0, 128);
-                        System.arraycopy(UtilsTools.intArraysTobyteArrays(com.example.location.Image.Party),
+                        System.arraycopy(intArraysTobyteArrays(Party),
                                 0, data, 128 * 1, 128);
-                        System.arraycopy(UtilsTools.intArraysTobyteArrays(com.example.location.Image.BBQ), 0,
+                        System.arraycopy(intArraysTobyteArrays(BBQ), 0,
                                 data, 128 * 2, 128);
                         System.arraycopy(
-                                UtilsTools.intArraysTobyteArrays(com.example.location.Image.Reading), 0,
+                                intArraysTobyteArrays(Reading), 0,
                                 data, 128 * 3, 128);
                         System.arraycopy(
-                                UtilsTools.intArraysTobyteArrays(com.example.location.Image.Watch_TV), 0,
+                                intArraysTobyteArrays(Watch_TV), 0,
                                 data, 128 * 4, 128);
                         updateList(dAddress, "cmd:0x0B," + commants[9] + " :"
                                 + index1);
@@ -627,7 +630,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case 10: {// 清空图片组
                         byte[] index = {0x00}; // 0x00~0x09
                         updateList(dAddress, "cmd:0x0C," + commants[10] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(index)));
+                                + Arrays.toString(byteTo16String(index)));
                         write(dAddress, index.length, 0x0C, index);
                         break;
                     }
@@ -647,29 +650,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 "cmd:0x0E,"
                                         + commants[12]
                                         + " :"
-                                        + Arrays.toString(UtilsTools
-                                        .byteTo16String(indexNameClear)));
+                                        + Arrays.toString(byteTo16String(indexNameClear)));
                         write(dAddress, indexNameClear.length, 0x0E, indexNameClear);
                         break;
                     }
                     case 13: {// 图片0组
                         byte[] data13 = new byte[128 * 8];
-                        System.arraycopy(UtilsTools.intArraysTobyteArrays(com.example.location.Image.Self),
+                        System.arraycopy(intArraysTobyteArrays(Self),
                                 0, data13, 128 * 0, 128);
-                        System.arraycopy(UtilsTools.intArraysTobyteArrays(com.example.location.Image.Pet), 0,
+                        System.arraycopy(intArraysTobyteArrays(Pet), 0,
                                 data13, 128 * 1, 128);
-                        System.arraycopy(UtilsTools.intArraysTobyteArrays(com.example.location.Image.Kids),
+                        System.arraycopy(intArraysTobyteArrays(Kids),
                                 0, data13, 128 * 2, 128);
-                        System.arraycopy(UtilsTools.intArraysTobyteArrays(com.example.location.Image.Pizza),
+                        System.arraycopy(intArraysTobyteArrays(Pizza),
                                 0, data13, 128 * 3, 128);
-                        System.arraycopy(UtilsTools.intArraysTobyteArrays(com.example.location.Image.Music),
+                        System.arraycopy(intArraysTobyteArrays(Music),
                                 0, data13, 128 * 4, 128);
-                        System.arraycopy(UtilsTools.intArraysTobyteArrays(com.example.location.Image.Really),
+                        System.arraycopy(intArraysTobyteArrays(Really),
                                 0, data13, 128 * 5, 128);
                         System.arraycopy(
-                                UtilsTools.intArraysTobyteArrays(com.example.location.Image.Whaaaaat), 0,
+                                intArraysTobyteArrays(Whaaaaat), 0,
                                 data13, 128 * 6, 128);
-                        System.arraycopy(UtilsTools.intArraysTobyteArrays(com.example.location.Image.WTF), 0,
+                        System.arraycopy(intArraysTobyteArrays(WTF), 0,
                                 data13, 128 * 7, 128);
                         int index0 = 0;
                         updateList(dAddress, "cmd:0x0B," + commants[13] + " :"
@@ -689,21 +691,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case 15: {// 设置图片2组 Love
                         int imageIndex2 = 2;
                         byte[] image_byte2 = new byte[128 * 6];
-                        System.arraycopy(UtilsTools.intArraysTobyteArrays(com.example.location.Image.Love),
+                        System.arraycopy(intArraysTobyteArrays(Love),
                                 0, image_byte2, 128 * 0, 128);
                         System.arraycopy(
-                                UtilsTools.intArraysTobyteArrays(com.example.location.Image.Broken_Heart), 0,
+                                intArraysTobyteArrays(Broken_Heart), 0,
                                 image_byte2, 128 * 1, 128);
                         System.arraycopy(
-                                UtilsTools.intArraysTobyteArrays(com.example.location.Image.Fine_Dining), 0,
+                                intArraysTobyteArrays(Fine_Dining), 0,
                                 image_byte2, 128 * 2, 128);
                         System.arraycopy(
-                                UtilsTools.intArraysTobyteArrays(com.example.location.Image.Romantic), 0,
+                                intArraysTobyteArrays(Romantic), 0,
                                 image_byte2, 128 * 3, 128);
-                        System.arraycopy(UtilsTools.intArraysTobyteArrays(com.example.location.Image.Sex), 0,
+                        System.arraycopy(intArraysTobyteArrays(Sex), 0,
                                 image_byte2, 128 * 4, 128);
                         System.arraycopy(
-                                UtilsTools.intArraysTobyteArrays(com.example.location.Image.Soaking), 0,
+                                intArraysTobyteArrays(Soaking), 0,
                                 image_byte2, 128 * 5, 128);
 
                         updateList(dAddress, "cmd:0x0B," + commants[15] + " :"
@@ -715,18 +717,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case 16: {// 设置图片3组 Work
                         int imageIndex3 = 3;
                         byte[] image_byte3 = new byte[128 * 5];
-                        System.arraycopy(UtilsTools.intArraysTobyteArrays(com.example.location.Image.Work),
+                        System.arraycopy(intArraysTobyteArrays(Work),
                                 0, image_byte3, 128 * 0, 128);
                         System.arraycopy(
-                                UtilsTools.intArraysTobyteArrays(com.example.location.Image.Phone_Call), 0,
+                                intArraysTobyteArrays(Phone_Call), 0,
                                 image_byte3, 128 * 1, 128);
-                        System.arraycopy(UtilsTools.intArraysTobyteArrays(com.example.location.Image.Email),
+                        System.arraycopy(intArraysTobyteArrays(Email),
                                 0, image_byte3, 128 * 2, 128);
                         System.arraycopy(
-                                UtilsTools.intArraysTobyteArrays(com.example.location.Image.Meeting), 0,
+                                intArraysTobyteArrays(Meeting), 0,
                                 image_byte3, 128 * 3, 128);
                         System.arraycopy(
-                                UtilsTools.intArraysTobyteArrays(com.example.location.Image.Daydream), 0,
+                                intArraysTobyteArrays(Daydream), 0,
                                 image_byte3, 128 * 4, 128);
 
                         updateList(dAddress, "cmd:0x0B," + commants[16] + " :"
@@ -738,15 +740,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         int imageIndex4 = 4;
                         byte[] image_byte4 = new byte[128 * 4];
                         System.arraycopy(
-                                UtilsTools.intArraysTobyteArrays(com.example.location.Image.Workshop), 0,
+                                intArraysTobyteArrays(Workshop), 0,
                                 image_byte4, 128 * 0, 128);
                         System.arraycopy(
-                                UtilsTools.intArraysTobyteArrays(com.example.location.Image.Sculpture), 0,
+                                intArraysTobyteArrays(Sculpture), 0,
                                 image_byte4, 128 * 1, 128);
                         System.arraycopy(
-                                UtilsTools.intArraysTobyteArrays(com.example.location.Image.Painting), 0,
+                                intArraysTobyteArrays(Painting), 0,
                                 image_byte4, 128 * 2, 128);
-                        System.arraycopy(UtilsTools.intArraysTobyteArrays(com.example.location.Image.Craft),
+                        System.arraycopy(intArraysTobyteArrays(Craft),
                                 0, image_byte4, 128 * 3, 128);
 
                         updateList(dAddress, "cmd:0x0B," + commants[17] + " :"
@@ -797,7 +799,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         byte[] d1 = new byte[4];
                         d1[0] = (byte) (((set1 << 2) & 0xff) | b1);
                         updateList(dAddress, "cmd:0x06," + commants[21] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(d1)));
+                                + Arrays.toString(byteTo16String(d1)));
                         write(dAddress, d1.length, 0x06, d1);
                         break;
                     }
@@ -807,7 +809,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         byte[] d3 = new byte[4];
                         d3[0] = (byte) (((set3 << 2) & 0xff) | b3);
                         updateList(dAddress, "cmd:0x06," + commants[22] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(d3)));
+                                + Arrays.toString(byteTo16String(d3)));
                         write(dAddress, d3.length, 0x06, d3);
                         break;
                     }
@@ -820,14 +822,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case 24: {// 抬手亮屏设置 , 0x00 代表关闭， 0x01 代表打开
                         byte[] setx = {0x01};
                         updateList(dAddress, "cmd:0x0f," + commants[24] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(setx)));
+                                + Arrays.toString(byteTo16String(setx)));
                         write(dAddress, setx.length, 0x0f, setx);
                         break;
                     }
                     case 25: {// 抬手亮屏设置 , 0x00 代表关闭， 0x01 代表打开
                         byte[] set2 = {0x00};
                         updateList(dAddress, "cmd:0x0f," + commants[25] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(set2)));
+                                + Arrays.toString(byteTo16String(set2)));
                         write(dAddress, set2.length, 0x0f, set2);
                         break;
                     }
@@ -838,7 +840,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         d7[0] = (byte) (((set7 << 2) & 0xff) | b7);
 
                         updateList(dAddress, "cmd:0x06," + commants[26] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(d7)));
+                                + Arrays.toString(byteTo16String(d7)));
                         write(dAddress, d7.length, 0x06, d7);
                         break;
                     }
@@ -849,7 +851,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         d4[0] = (byte) (((set4 << 2) & 0xff) | b4);
 
                         updateList(dAddress, "cmd:0x06," + commants[27] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(d4)));
+                                + Arrays.toString(byteTo16String(d4)));
                         write(dAddress, d4.length, 0x06, d4);
                         break;
                     }
@@ -860,7 +862,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         d5[0] = (byte) (((set5 << 2) & 0xff) | b5);
 
                         updateList(dAddress, "cmd:0x06," + commants[28] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(d5)));
+                                + Arrays.toString(byteTo16String(d5)));
                         write(dAddress, d5.length, 0x06, d5);
                         break;
                     }
@@ -870,13 +872,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         byte[] d6 = new byte[4];
                         d6[0] = (byte) (((set6 << 2) & 0xff) | b6);
                         updateList(dAddress, "cmd:0x06," + commants[26] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(d6)));
+                                + Arrays.toString(byteTo16String(d6)));
                         write(dAddress, d6.length, 0x06, d6);
                         break;
                     }
                     case 30: {//	"开机图片设置"
 //					11  开机图片设置(*)  0～255  (#)  16
-                        byte[] imageByte = UtilsTools.intArraysTobyteArrays(com.example.location.Image.BootImages);
+                        byte[] imageByte = intArraysTobyteArrays(BootImages);
                         updateList(dAddress, "cmd:0x0B," + commants[30] + ",length=" + imageByte.length);
                         writeBootImages(dAddress, 0x0B, imageByte);
                         break;
@@ -928,28 +930,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case 0x0C: {//	"功率设置"
                         a = Integer.parseInt(s);
                         byte[] dd = {(byte) a};
-                        updateList(dAddress, "cmd:0x0C, " + title + ":" + a + " , " + Arrays.toString(UtilsTools.byteTo16String(dd)));
+                        updateList(dAddress, "cmd:0x0C, " + title + ":" + a + " , " + Arrays.toString(byteTo16String(dd)));
                         write(dAddress, dd.length, cmd, dd);
                         break;
                     }
                     case 0x0D: {//	"设备名设置"
                         byte[] t = s.getBytes();
-                        updateList(dAddress, "cmd:0x0D, " + title + ":" + s + " , " + Arrays.toString(UtilsTools.byteTo16String(t)));
+                        updateList(dAddress, "cmd:0x0D, " + title + ":" + s + " , " + Arrays.toString(byteTo16String(t)));
                         write(dAddress, t.length, cmd, t);
                         break;
                     }
                     case 0x0E: {//	"广播设置"
                         a = Integer.parseInt(s);
                         float xx = a * 0.625f;
-                        byte[] gb = UtilsTools.intToByteArray(a);
-                        updateList(dAddress, "cmd:0x0E, " + title + "毫秒:" + a + "*0.625 =" + xx + " , " + Arrays.toString(UtilsTools.byteTo16String(gb)));
+                        byte[] gb = intToByteArray(a);
+                        updateList(dAddress, "cmd:0x0E, " + title + "毫秒:" + a + "*0.625 =" + xx + " , " + Arrays.toString(byteTo16String(gb)));
                         write(dAddress, gb.length, cmd, gb);
                         break;
                     }
                     case 0x62: {//	"定时温度测量设置"
                         a = Integer.parseInt(s);
                         byte[] ss = {(byte) a};
-                        updateList(dAddress, "cmd:0x62, " + " , " + Arrays.toString(UtilsTools.byteTo16String(ss)));
+                        updateList(dAddress, "cmd:0x62, " + " , " + Arrays.toString(byteTo16String(ss)));
                         write(dAddress, ss.length, cmd, ss);
                         break;
                     }
@@ -957,7 +959,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         a = Integer.parseInt(s);
                         byte[] ssselect = {(byte) a};
                         Log.i("TAG", "ssselect:" + a);
-                        updateList(dAddress, "cmd:0x64, " + "跌倒灵敏度设置 , " + Arrays.toString(UtilsTools.byteTo16String(ssselect)));
+                        updateList(dAddress, "cmd:0x64, " + "跌倒灵敏度设置 , " + Arrays.toString(byteTo16String(ssselect)));
                         write(dAddress, ssselect.length, cmd, ssselect);
                         break;
                     }
@@ -994,13 +996,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case 0: {
                         byte[] a = {0x02};
                         updateList(dAddress, "cmd:0x11," + commants[0] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(a)));
+                                + Arrays.toString(byteTo16String(a)));
                         write(dAddress, a.length, 0x11, a);
                         break;
                     }
                     case 1:{
                         String str = "+12345678910";
-                        byte[] st = UtilsTools.strToByteArray(str);
+                        byte[] st = strToByteArray(str);
                         updateList(dAddress, "cmd:0x14," + commants[1] + " :" + str);
                         write(dAddress, st.length, 0x14, st);
                         break;
@@ -1008,21 +1010,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case 2: {
                         byte[] s = {0x00};
                         updateList(dAddress, "cmd:0x15," + commants[2] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(s)));
+                                + Arrays.toString(byteTo16String(s)));
                         write(dAddress, s.length, 0x15, s);
                         break;
                     }
                     case 3: {
                         byte[] j = {0x00};
                         updateList(dAddress, "cmd:0x16," + commants[3] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(j)));
+                                + Arrays.toString(byteTo16String(j)));
                         write(dAddress, j.length, 0x16, j);
                         break;
                     }
                     case 4: {
                         String d = "+12345678910";
                         updateList(dAddress, "cmd:0x17," + commants[4] + " :" + d);
-                        byte[] dx = UtilsTools.strToByteArray(d);
+                        byte[] dx = strToByteArray(d);
                         write(dAddress, dx.length, 0x17, dx);
                         break;
                     }
@@ -1288,7 +1290,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 L.i("定时测量心率:----------" + s + " --" + a);
 
                 byte[] data = {(byte) a};
-                updateList(dAddress, "cmd:0x08, 每隔 " + a + " 分钟定时测量一次心率, " + Arrays.toString(UtilsTools.byteTo16String(data)));
+                updateList(dAddress, "cmd:0x08, 每隔 " + a + " 分钟定时测量一次心率, " + Arrays.toString(byteTo16String(data)));
                 write(dAddress, data.length, 0x08, data);
             }
         });
@@ -1316,7 +1318,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(DialogInterface dialog, int whichButton) {
                 String s = editText.getText().toString();
                 L.i("string:----------" + s + "--");
-                L.i("unicode:----------" + UtilsTools.string2Unicode(s) + "--");
+                L.i("unicode:----------" + string2Unicode(s) + "--");
                 try {
 //					byte [] t = s.getBytes("utf-16"); //因为用utf-16 和 Unicode 编码差不多，所以用两个都可以
                     byte[] t = s.getBytes("Unicode");
@@ -1333,10 +1335,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         System.arraycopy(t, 2, data, 0, 16);
                         System.arraycopy(t, 18, data2, 0, 8);
                     }
-                    updateList(dAddress, "cmd:0x19, 发送内容：" + s + "；  Unicode编码 :" + UtilsTools.string2Unicode(s) + " ,第一个包:" +
-                            Arrays.toString(UtilsTools.byteTo16String(data)));
+                    updateList(dAddress, "cmd:0x19, 发送内容：" + s + "；  Unicode编码 :" + string2Unicode(s) + " ,第一个包:" +
+                            Arrays.toString(byteTo16String(data)));
                     write_custom(dAddress, data.length, 0x19,0, data);
-                    updateList(dAddress, "cmd:0x19, 第二个包：" + Arrays.toString(UtilsTools.byteTo16String(data2)));
+                    updateList(dAddress, "cmd:0x19, 第二个包：" + Arrays.toString(byteTo16String(data2)));
                     write_custom(dAddress, data2.length, 0x19,1, data2);
 
                 } catch (UnsupportedEncodingException e) {
@@ -1377,7 +1379,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switch (which) {
                     case 0: {
                         updateList(dAddress, "cmd:0x22," + commants[0] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(bluAddr)));
+                                + Arrays.toString(byteTo16String(bluAddr)));
                         write(dAddress, 16, 0x22, bluAddr);
                         break;
                     }
@@ -1391,15 +1393,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 "cmd:0x24,"
                                         + commants[1]
                                         + " :"
-                                        + Arrays.toString(UtilsTools
-                                        .byteTo16String(SUPER_BOUND_DATA)));
+                                        + Arrays.toString(byteTo16String(SUPER_BOUND_DATA)));
                         write(dAddress, SUPER_BOUND_DATA.length, 0x24,
                                 SUPER_BOUND_DATA);
                         break;
                     }
                     case 2: {
                         updateList(dAddress, "cmd:0x23," + commants[2] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(bluAddr)));
+                                + Arrays.toString(byteTo16String(bluAddr)));
                         write(dAddress, 16, 0x23, bluAddr);
                         break;
                     }
@@ -1419,7 +1420,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     case 5: {
                         updateList(dAddress, "cmd:0x21," + commants[5] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(bluAddr)));
+                                + Arrays.toString(byteTo16String(bluAddr)));
                         write(dAddress, 16, 0x21, bluAddr);
                         break;
                     }
@@ -1474,7 +1475,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(DialogInterface dialog, int whichButton) {
                 String s = editText2.getText().toString();
                 L.i(TAG,"s:"+s);
-                byte[][] arrs= UtilsTools.bytetoarray(s);
+                byte[][] arrs= bytetoarray(s);
                 write_nohead(dAddress,arrs[0].length, 0, arrs[0]);
                 if(arrs.length ==2){
                     try {
@@ -1571,42 +1572,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         // 为了避免每次同步时间过长，增加请求挪动历史运动数据指针的命令，APP 传送一个时间点过来
                         // 如果发送了一个全 0 的四个数据过来，则代表将指针重置到起始位置。
-                        byte[] aa = UtilsTools.record_date(2017, 7, 10, 15); // 年，月，日，时
+                        byte[] aa = record_date(2017, 7, 10, 15); // 年，月，日，时
                         updateList(dAddress, "cmd:0x32," + commants[3] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(aa))
+                                + Arrays.toString(byteTo16String(aa))
                                 + "，挪动时间：" + "2016-12-17 00:00");
                         write(dAddress, aa.length, 0x32, aa);
                         break;
                     case 4:
                         byte[] sleep = {0x01};
                         updateList(dAddress, "cmd:0x33," + commants[4] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(sleep)));
+                                + Arrays.toString(byteTo16String(sleep)));
                         write(dAddress, sleep.length, 0x33, sleep);
                         break;
                     case 5:
                         byte[] hisSleep = {0x01};
                         updateList(dAddress, "cmd:0x34," + commants[5] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(hisSleep))
+                                + Arrays.toString(byteTo16String(hisSleep))
                                 + ","+getString(R.string.wait));
                         write(dAddress, hisSleep.length, 0x34, hisSleep);
                         break;
                     case 6:
                         // 请求挪动历史睡眠数据指针
-                        byte[] sleepzhizhen = UtilsTools.record_date(2016, 12, 17, 0); // 年，月，日，时
+                        byte[] sleepzhizhen = record_date(2016, 12, 17, 0); // 年，月，日，时
                         updateList(
                                 dAddress,
                                 "cmd:0x39,"
                                         + commants[6]
                                         + " :"
-                                        + Arrays.toString(UtilsTools
-                                        .byteTo16String(sleepzhizhen))
+                                        + Arrays.toString(byteTo16String(sleepzhizhen))
                                         + "，挪动时间：" + "2016-12-17 00:00");
                         write(dAddress, sleepzhizhen.length, 0x39, sleepzhizhen);
                         break;
                     case 7:
                         byte[] locaiton = {0x01};
                         updateList(dAddress, "cmd:0x3A," + commants[7] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(locaiton)));
+                                + Arrays.toString(byteTo16String(locaiton)));
                         write(dAddress, locaiton.length, 0x3A, locaiton);
                         break;
                     case 8:
@@ -1616,20 +1616,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 "cmd:0x3B,"
                                         + commants[8]
                                         + " :"
-                                        + Arrays.toString(UtilsTools
-                                        .byteTo16String(hislocaiton))
+                                        + Arrays.toString(byteTo16String(hislocaiton))
                                         + ",请等待，历史数据在后台请求");
                         write(dAddress, hislocaiton.length, 0x3B, hislocaiton);
                         break;
                     case 9:
-                        byte[] locaitonTime = UtilsTools.record_date(2016, 12, 17, 0); // 年，月，日，时
+                        byte[] locaitonTime = record_date(2016, 12, 17, 0); // 年，月，日，时
                         updateList(
                                 dAddress,
                                 "cmd:0x3C,"
                                         + commants[9]
                                         + " :"
-                                        + Arrays.toString(UtilsTools
-                                        .byteTo16String(locaitonTime))
+                                        + Arrays.toString(byteTo16String(locaitonTime))
                                         + "，挪动时间：" + "2016-12-17 00:00");
                         write(dAddress, locaitonTime.length, 0x3C, locaitonTime);
                         break;
@@ -1672,7 +1670,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case 0:
                         byte[] zx = {0x01};
                         updateList(dAddress, "cmd:0x59," + commants[0] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(zx))
+                                + Arrays.toString(byteTo16String(zx))
                                 + ",请等待，历史数据在后台请求");
                         write(dAddress, zx.length, 0x59, zx);
                         break;
@@ -1683,7 +1681,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         // 除需要 400ms，APP 在断开连接后，请等待 4 秒以上才开始重新连接。
                         byte[] del = {0x00};
                         updateList(dAddress, "cmd:0x5A," + commants[1] + " :"
-                                + Arrays.toString(UtilsTools.byteTo16String(del)));
+                                + Arrays.toString(byteTo16String(del)));
                         write(dAddress, del.length, 0x5A, del);
                         break;
                     case 2:
@@ -1746,14 +1744,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case 4:
                         // 请求挪动历史心率数据指针
-                        byte[] ah = UtilsTools.record_date(2016, 12, 17, 0);
+                        byte[] ah = record_date(2016, 12, 17, 0);
                         updateList(dAddress, "cmd:0x49," + commants[4] + " :"
                                 + "2016-12-17 00:00");
                         write(dAddress, ah.length, 0x49, ah);
                         break;
                     case 5:
                         // 请求挪动历史体温数据指针
-                        byte[] at = UtilsTools.record_date(2016, 12, 17, 0);
+                        byte[] at = record_date(2016, 12, 17, 0);
                         updateList(dAddress, "cmd:0x4A," + commants[5] + " :"
                                 + "2016-12-17 00:00");
                         write(dAddress, at.length, 0x4A, at);
@@ -1912,7 +1910,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case 8:
                         byte[] ddd = {0x00,0x00,0x00,0x00};
-                        updateList(dAddress,"cmd:0x78"+commants[8] + ":" + Arrays.toString(UtilsTools.byteTo16String(ddd)));
+                        updateList(dAddress,"cmd:0x78"+commants[8] + ":" + Arrays.toString(byteTo16String(ddd)));
                         write(dAddress,ddd.length,0x78,ddd);
                         break;
                 }

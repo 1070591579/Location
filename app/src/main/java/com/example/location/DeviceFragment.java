@@ -1,5 +1,6 @@
 package com.example.location;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
@@ -47,6 +48,7 @@ public class DeviceFragment extends Fragment {
     FileOutputStream fos;
     int[] tep = new int[3];//加速度裸数据数组
     public UpdateListListener mUpdateListListener;
+    @SuppressLint("HandlerLeak")
     private final Handler msgHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -95,7 +97,7 @@ public class DeviceFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fragments = new ArrayList<Fragment>();
+        fragments = new ArrayList<>();
         fragments.add(new DeviceListFragment(bleDevice, mDeviceFragment));
         fragments.add(new ChartsFragment(bleDevice, mDeviceFragment));
         adapter = new FragAdapter(getChildFragmentManager(), fragments);
