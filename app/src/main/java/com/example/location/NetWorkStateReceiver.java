@@ -8,6 +8,9 @@ import android.net.Network;
 import android.net.NetworkInfo;
 import android.widget.Toast;
 
+/**
+ * @author Administrator
+ */
 public class NetWorkStateReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {

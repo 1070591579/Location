@@ -107,4 +107,6 @@
     <string name="name">LiangLiang</string>
     <string name="email">1634475153@qq.com</string>
     <string name="todo">命令信息</string>
+    <string name="main_Add">新增人员</string>
+    <string name="main_Manage">人员管理</string>
 </resources>
