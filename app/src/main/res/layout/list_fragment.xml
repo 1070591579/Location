@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/material_drawer_hint_text"
     android:orientation="vertical"
-    android:paddingTop="50dp">
+    android:paddingTop="50dp"
+    tools:visibility="visible">
 
     <TextView
         android:layout_width="match_parent"

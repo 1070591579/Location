@@ -35,18 +35,23 @@ import wxz.us.ble.listener.HistoryDataListener;
 import wxz.us.ble.listener.OtherDataListener;
 import wxz.us.ble.listener.RealtimeDataListener;
 
+/**
+ * @author Administrator
+ */
 public class DeviceFragment extends Fragment {
     private ViewPager device_viewpager;
     private List<Fragment> fragments;
     private FragAdapter adapter;
     private BLEDevice bleDevice;
-    private View rootView = null;// 缓存Fragment com.us.view
+    // 缓存Fragment com.us.view
+    private View rootView = null;
     public DeviceFragment mDeviceFragment;
     private MainActivity mActivity;
     public UpdateChartsListener mUpdateChartsListener;
     private String TAG = "DeviceFragment";
     FileOutputStream fos;
-    int[] tep = new int[3];//加速度裸数据数组
+    // 加速度裸数据数组
+    int[] tep = new int[3];
     public UpdateListListener mUpdateListListener;
     @SuppressLint("HandlerLeak")
     private final Handler msgHandler = new Handler() {
@@ -287,6 +292,7 @@ public class DeviceFragment extends Fragment {
                             temp++;
                         }
                         L.i(TAG, "需要写入文件");
+                        //noinspection AlibabaAvoidManuallyCreateThread
                         new Thread(new Runnable() {
                             @Override
                             public void run() {

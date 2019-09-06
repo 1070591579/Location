@@ -2,115 +2,124 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/material_drawer_hint_text"
     android:orientation="vertical"
-     >
-    <TextView 
+    android:paddingTop="50dp">
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/real_data_chart"
+        android:gravity="center|center_horizontal|center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:text="@string/real_steps" />
+
+        <TextView
+            android:id="@+id/step_tv_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center|center_horizontal|left|center_vertical"
+            android:text="0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:text="@string/real_heartrate"
+            android:textColor="#FFCD41" />
+
+        <TextView
+            android:id="@+id/heart_tv_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center|center_horizontal|left|center_vertical"
+            android:text="0"
+            android:textColor="#FFCD41" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:text="@string/real_temeprature"
+            android:textColor="#ff33b5e5" />
+
+        <TextView
+            android:id="@+id/temp_tv_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center|center_horizontal|left|center_vertical"
+            android:text="0"
+            android:textColor="#ff33b5e5" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center|center_horizontal|center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:text="@string/real_pressure"
+            android:textColor="#458B00" />
+
+        <TextView
+            android:id="@+id/at_tv_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center|center_horizontal|left|center_vertical"
+            android:text="0"
+            android:textColor="#458B00" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:text="@string/altitude"
+            android:textColor="#4B0082" />
+
+        <TextView
+            android:id="@+id/al_tv_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center|center_horizontal|left|center_vertical"
+            android:text="0"
+            android:textColor="#4B0082" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:text="@string/envir_tempeature"
+            android:textColor="#CD0000" />
+
+        <TextView
+            android:id="@+id/am_tv_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center|center_horizontal|left|center_vertical"
+            android:text="0"
+            android:textColor="#CD0000" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center|center_horizontal|center_vertical"
         android:padding="5dp"
-        />
+        android:text="@string/real_data_chart" />
 
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:gravity="center"
-       android:orientation="horizontal" >
-
-       <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="30dp"
-           android:text="@string/real_steps" />
-
-       <TextView
-           android:id="@+id/step_tv_view"
-           android:layout_width="32dp"
-           android:layout_height="match_parent"
-           android:gravity="left"
-           android:text="0" />
-
-       <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="30dp"
-            android:textColor="#FFCD41"
-           android:text="@string/real_heartrate" />
-
-       <TextView
-           android:id="@+id/heart_tv_view"
-           android:layout_width="32dp"
-           android:layout_height="match_parent"
-           android:gravity="left"
-           android:textColor="#FFCD41"
-           android:text="0" />
-
-       <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="30dp"
-           android:textColor="#ff33b5e5"
-           android:text="@string/real_temeprature" />
-
-       <TextView
-           android:id="@+id/temp_tv_view"
-           android:layout_width="32dp"
-           android:layout_height="match_parent"
-           android:textColor="#ff33b5e5"
-           android:gravity="left"
-           android:text="0" />
-   </LinearLayout>
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:gravity="center"
-       android:orientation="horizontal" >
-
-       <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="30dp"
-           android:textColor="#458B00"
-           android:text="@string/real_pressure" />
-
-       <TextView
-           android:id="@+id/at_tv_view"
-           android:layout_width="wrap_content"
-           android:layout_height="match_parent"
-           android:gravity="left"
-           android:textColor="#458B00"
-           android:text="0" />
-
-       <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="30dp"
-           android:textColor="#4B0082"
-           android:text="@string/altitude" />
-
-       <TextView
-           android:id="@+id/al_tv_view"
-           android:layout_width="wrap_content"
-           android:layout_height="match_parent"
-           android:textColor="#4B0082"
-           android:gravity="left"
-           android:text="0" />
-
-       <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="30dp"
-           android:textColor="#CD0000"
-           android:text="@string/envir_tempeature" />
-
-       <TextView
-           android:id="@+id/am_tv_view"
-           android:layout_width="wrap_content"
-           android:layout_height="match_parent"
-           android:textColor="#CD0000"
-           android:gravity="left"
-           android:text="0" />
-   </LinearLayout>  
     <lecho.lib.hellocharts.view.LineChartView
-	    android:id="@+id/line_chart"
-	    android:layout_width="fill_parent"
-	    android:layout_height="360dp"
-	    android:background="#ffffff"/>
-    
- 
+        android:id="@+id/line_chart"
+        android:layout_width="fill_parent"
+        android:layout_height="360dp"
+        android:background="#ffffff" />
+
+
 </LinearLayout>
