@@ -1900,14 +1900,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         write(dAddress, dx0.length, 0x41, dx0);
                         break;
                     case 7: // 请求全部健康数据
-                        Log.i("BlueActivity", "请求全部健康数据");
+                        Log.i("MainActivity", "请求全部健康数据");
                         byte[] dx03 = {0x00};
                         updateList(dAddress, "cmd:0x4B," + commants[7] + " :"
                                 + Arrays.toString(dx03));
                         write(dAddress, dx03.length, 0x4B, dx03);
                         break;
                     case 8: // 关闭实时体温数据
-                        Log.i("BlueActivity", "关闭实时体温数据");
+                        Log.i("MainActivity", "关闭实时体温数据");
                         byte[] offtem = {0x00};
                         updateList(dAddress, "cmd:0x44," + commants[8] + " :"
                                 + Arrays.toString(offtem));
@@ -2561,67 +2561,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showRssiClick() {
-        Toast.makeText(MainActivity.this, "action_rssi", Toast.LENGTH_SHORT).show();
         dBleDevice.getRssi();
     }
 
     private void showConnectClick() {
-        Toast.makeText(MainActivity.this, "action_connect", Toast.LENGTH_SHORT).show();
         dBleDevice.connect();
     }
 
     private void showDisconnectClick() {
-        Toast.makeText(MainActivity.this, "action_disconn", Toast.LENGTH_SHORT).show();
         dBleDevice.disconnect();
     }
 
     private void showClearClick() {
-        Toast.makeText(MainActivity.this, "action_clear", Toast.LENGTH_SHORT).show();
         clearList(dAddress);
     }
 
     private void showRawDataClick() {
-        Toast.makeText(MainActivity.this, "action_rawdata", Toast.LENGTH_SHORT).show();
         rawdataDialog.show();
     }
 
     private void showPushMeeageClick() {
-        Toast.makeText(MainActivity.this, "action_pushmessage", Toast.LENGTH_SHORT).show();
         pushsettingDialog.show();
     }
 
     private void showCheersClick() {
-        Toast.makeText(MainActivity.this, "action_cheers", Toast.LENGTH_SHORT).show();
         cheersDialog.show();
     }
 
     private void showHealthClick() {
-        Toast.makeText(MainActivity.this, "action_health", Toast.LENGTH_SHORT).show();
         healthDialog.show();
     }
 
     private void showSportsClick() {
-        Toast.makeText(MainActivity.this, "action_sports", Toast.LENGTH_SHORT).show();
         sportsDialog.show();
     }
 
     private void showSecurityClick() {
-        Toast.makeText(MainActivity.this, "action_security", Toast.LENGTH_SHORT).show();
         securityDialog.show();
     }
 
     private void showMessageClick() {
-        Toast.makeText(MainActivity.this, "action_message", Toast.LENGTH_SHORT).show();
         messageDialog.show();
     }
 
     private void showSettingClick() {
-        Toast.makeText(MainActivity.this, "action_setting", Toast.LENGTH_SHORT).show();
         settingDialog.show();
     }
 
     private void showScanClick() {
-        Toast.makeText(MainActivity.this, "action_scan", Toast.LENGTH_SHORT).show();
         scanDialog.show();
         scanLeDevice();
     }
