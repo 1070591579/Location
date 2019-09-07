@@ -287,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         baiduMap = mapView.getMap();
         myToolbar.setLogo(R.mipmap.ic_launcher_round);
         myToolbar.setTitle("  野外人员管理");
-        myToolbar.setSubtitle("  阳光");
+//        myToolbar.setSubtitle("  阳光");
         setSupportActionBar(myToolbar);
         /* myToolbar.setNavigationIcon(R.mipmap.head_background); */
         requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -428,8 +428,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initCheersDialog();
         initTextDialog();
         initHeartDialog();
-        initpushsettingDialog();
-        initrawdataDialog();
+        initPushSettingDialog();
+        initRawDataDialog();
     }
     /***
      * 添加设备，每连接一个设备就把设备添加到集合里面，方便管理
@@ -1923,8 +1923,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 信息推送 dialog
      * pushsettingDialog
      */
-    private AlertDialog pushsettingDialog;
-    private void  initpushsettingDialog() {
+    private AlertDialog pushSettingDialog;
+    private void  initPushSettingDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("推送相关命令");
         final String[] commants = {"推送设置", "定时温度测量设置", "跌倒灵敏度设置","振动次数设置"};
@@ -1975,14 +1975,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
-        pushsettingDialog = builder.create();
+        pushSettingDialog = builder.create();
     }
     /**
      * 裸数据 dialog
-     * rawdataDialog
+     * rawDataDialog
      */
-    private AlertDialog rawdataDialog;
-    private void initrawdataDialog() {
+    private AlertDialog rawDataDialog;
+    private void initRawDataDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("裸数据请求相关命令");
         final String[] commants = {"请求加速度裸数据", "请求心率裸数据",
@@ -2053,7 +2053,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
-        rawdataDialog = builder.create();
+        rawDataDialog = builder.create();
     }
 
     private void writeImageName(String address, @SuppressWarnings("SameParameterValue") int cmd, int number, String[] name) {
@@ -2471,6 +2471,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * @param item
+     * @return
+     */
     @SuppressWarnings({"AlibabaMethodTooLong", "SingleElementAnnotation"})
     @Override
     public boolean onMenuItemClick(@NonNull MenuItem item) {
@@ -2577,11 +2581,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showRawDataClick() {
-        rawdataDialog.show();
+        rawDataDialog.show();
     }
 
     private void showPushMeeageClick() {
-        pushsettingDialog.show();
+        pushSettingDialog.show();
     }
 
     private void showCheersClick() {

@@ -10,6 +10,8 @@
     <include
         android:id="@+id/tool_bar"
         layout="@layout/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         app:layout_constraintBottom_toTopOf="@+id/drawer_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,8 +31,9 @@
             android:id="@+id/home"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#fff"
-            android:orientation="vertical">
+            android:background="@color/design_default_color_background"
+            android:orientation="vertical"
+            android:paddingTop="40dp">
 
             <com.baidu.mapapi.map.MapView
                 android:id="@+id/b_map_View"
@@ -50,9 +53,8 @@
             <LinearLayout
                 android:id="@+id/btn_group"
                 android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:layout_marginTop="54dp"
-                android:background="@android:color/white"
+                android:layout_height="40dp"
+                android:background="@color/design_default_color_background"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +70,6 @@
                 <!--            android:text="@string/plan"-->
                 <!--            android:visibility="visible"-->
                 <!--            tools:ignore="ButtonStyle" />-->
-
                 <Button
                     android:id="@+id/but_Loc"
                     android:layout_width="wrap_content"
@@ -92,7 +93,6 @@
                     android:layout_weight="1"
                     android:text="@string/command"
                     tools:ignore="ButtonStyle" />
-
             </LinearLayout>
 
             <TextView
@@ -111,44 +111,49 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <LinearLayout
-                android:id="@+id/log_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/btn_group"
-                android:orientation="vertical"
-                tools:visibility="invisible">
-
-                <ListView
-                    android:id="@+id/device_list_view"
-                    style="@style/Widget.AppCompat.ListView.Menu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:divider="@color/design_default_color_background"
-                    android:dividerHeight="1dp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="42dp"
-                    android:gravity="center"
-                    android:text="@string/device_log"
-                    android:textAppearance="@style/ClusterIcon.TextAppearance" />
-
-            </LinearLayout>
-
             <com.example.location.CustomViewPager
                 android:id="@+id/per_viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:layout_marginTop="40dp"
+                android:visibility="invisible">
 
                 <androidx.viewpager.widget.PagerTabStrip
                     android:id="@+id/per_pagertab"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_gravity="top" />
+                    android:layout_gravity="center|top"
+                    android:background="@color/material_drawer_hint_text">
+
+                </androidx.viewpager.widget.PagerTabStrip>
 
             </com.example.location.CustomViewPager>
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/log_text"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="90dp"-->
+<!--                android:background="@color/material_drawer_hint_text"-->
+<!--                android:orientation="vertical">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="30dp"-->
+<!--                    android:gravity="center|center_horizontal|center_vertical"-->
+<!--                    android:text="@string/device_log"-->
+<!--                    android:textAppearance="@style/ClusterIcon.TextAppearance" />-->
+
+<!--                <ListView-->
+<!--                    android:id="@+id/device_list_view"-->
+<!--                    style="@style/Widget.AppCompat.ListView.Menu"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:divider="@color/design_default_color_background"-->
+<!--                    android:dividerHeight="1dp" />-->
+
+<!--            </LinearLayout>-->
 
         </RelativeLayout>
 
@@ -159,6 +164,7 @@
             android:layout_gravity="start"
             android:background="@color/md_grey_700"
             android:orientation="vertical" />
+
     </androidx.drawerlayout.widget.DrawerLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
