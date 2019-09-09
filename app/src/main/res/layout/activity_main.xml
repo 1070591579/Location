@@ -52,47 +52,64 @@
 
             <LinearLayout
                 android:id="@+id/btn_group"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@color/design_default_color_background"
-                android:orientation="horizontal"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:gravity="bottom|center_horizontal|center_vertical"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/b_map_View"
                 app:layout_constraintVertical_bias="0.0">
-
-                <!--        <Button-->
-                <!--            android:id="@+id/but_RoutrPlan"-->
-                <!--            android:layout_width="wrap_content"-->
-                <!--            android:layout_height="wrap_content"-->
-                <!--            android:layout_weight="1"-->
-                <!--            android:text="@string/plan"-->
-                <!--            android:visibility="visible"-->
-                <!--            tools:ignore="ButtonStyle" />-->
-                <Button
-                    android:id="@+id/but_Loc"
+                <!--<Button
+                    android:id="@+id/but_RoutrPlan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/location"
-                    tools:ignore="ButtonStyle" />
+                    android:text="@string/plan"
+                    android:visibility="visible"
+                    tools:ignore="ButtonStyle" />-->
+                <ImageButton
+                    android:id="@+id/location_Icon"
+                    style="@android:style/Widget.DeviceDefault.ImageButton"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/design_default_color_surface"
+                    android:contentDescription="@string/location_icon"
+                    android:src="@android:drawable/ic_menu_mylocation"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/but_Attribute"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/attribute"
-                    tools:ignore="ButtonStyle" />
+                    style="@android:style/Widget.DeviceDefault.ImageButton"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/design_default_color_surface"
+                    android:contentDescription="@string/attribute"
+                    android:src="@android:drawable/ic_menu_add"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/but_Command"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/command"
-                    tools:ignore="ButtonStyle" />
+                    style="@android:style/Widget.DeviceDefault.ImageButton"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/design_default_color_surface"
+                    android:contentDescription="@string/command"
+                    android:src="@android:drawable/ic_menu_edit"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
             </LinearLayout>
 
             <TextView
@@ -116,7 +133,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_marginTop="40dp"
                 android:visibility="invisible">
 
                 <androidx.viewpager.widget.PagerTabStrip
@@ -128,32 +144,39 @@
 
                 </androidx.viewpager.widget.PagerTabStrip>
 
+                <!--<androidx.viewpager.widget.ViewPager
+                    android:id="@+id/device_viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"/>-->
+                <!--<LinearLayout
+                    android:id="@+id/log_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:background="@color/material_drawer_hint_text"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:gravity="center|center_horizontal|center_vertical"
+                        android:text="@string/device_log"
+                        android:textAppearance="@style/ClusterIcon.TextAppearance" />
+
+                    <ListView
+                        android:id="@+id/device_list_view"
+                        style="@style/Widget.AppCompat.ListView.Menu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@color/design_default_color_background"
+                        android:dividerHeight="1dp" >
+
+                    </ListView>
+
+                </LinearLayout>-->
             </com.example.location.CustomViewPager>
-
-<!--            <LinearLayout-->
-<!--                android:id="@+id/log_text"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="90dp"-->
-<!--                android:background="@color/material_drawer_hint_text"-->
-<!--                android:orientation="vertical">-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="30dp"-->
-<!--                    android:gravity="center|center_horizontal|center_vertical"-->
-<!--                    android:text="@string/device_log"-->
-<!--                    android:textAppearance="@style/ClusterIcon.TextAppearance" />-->
-
-<!--                <ListView-->
-<!--                    android:id="@+id/device_list_view"-->
-<!--                    style="@style/Widget.AppCompat.ListView.Menu"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:divider="@color/design_default_color_background"-->
-<!--                    android:dividerHeight="1dp" />-->
-
-<!--            </LinearLayout>-->
 
         </RelativeLayout>
 

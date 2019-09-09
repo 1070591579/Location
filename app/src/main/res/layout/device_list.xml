@@ -10,15 +10,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/pbar"
         android:visibility="visible"/>
-    <ListView 
+
+    <ListView
+        android:id="@+id/device_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:layout_gravity="center_horizontal"
-        android:visibility="gone"
-        android:id="@+id/device_list">
-        
+        android:visibility="gone">
+
     </ListView>
    
     

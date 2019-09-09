@@ -19,8 +19,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -346,11 +346,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void requestLocation() {
         initLocation();
         initRoutePlan();
-        initBlue();
-        intiView();
         button();
         headMenuItem();
         menuItem();
+        initBlue();
+        initView();
         /* 开始定位，定位结果会回调到前面注册的监听器中 */
         mLocationClient.start();
     }
@@ -458,7 +458,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         Toast.makeText(this, getString(R.string.connect_device)+"", Toast.LENGTH_LONG).show();
         perViewPager.setCurrentItem(addressView.size());
+        //noinspection AlibabaAvoidManuallyCreateThread,AlibabaAvoidManuallyCreateThread
         new Thread(new Runnable() {
+            @SuppressWarnings("AlibabaAvoidManuallyCreateThread")
             @Override
             public void run() {
                 /* 不要同时连几个蓝牙设备，要等连接成功后再连接下一个 */
@@ -1306,7 +1308,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         updateList(dAddress, "cmd:0x111," + commants[15] + " :" + callLengthEn);
                         byte[] bttCallEn = new byte[12];
                         bttCallEn[0] = 0x08;
-                        if(smsLengEn.length<=11){
+                        if(11 >= smsLengEn.length){
                             System.arraycopy(smsLengEn, 0, bttCallEn, 1, smsLengEn.length);
                         }else {
                             System.arraycopy(smsLengEn, 0, bttCallEn, 1, 11);
@@ -1805,14 +1807,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
-                    case 0:
+                    case 0: {
                         byte[] zx = {0x01};
                         updateList(dAddress, "cmd:0x59," + commants[0] + " :"
                                 + Arrays.toString(byteTo16String(zx))
                                 + ",请等待，历史数据在后台请求");
                         write(dAddress, zx.length, 0x59, zx);
                         break;
-                    case 1:
+                    }
+                    case 1: {
                         // 由于蓝牙硬件的特殊性，需要断开连接才能删除，所以设备在收到 APP 指令后，会
                         // 迅速返回一个成功应答，此时 APP 必须主动断开蓝牙连接（Major Command 2, Minor
                         // Command 7, 0x27） ，才进行删除工作，由于药品剂量数据总共有 10 个页面，每个页面删
@@ -1822,15 +1825,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 + Arrays.toString(byteTo16String(del)));
                         write(dAddress, del.length, 0x5A, del);
                         break;
-                    case 2:
+                    }
+                    case 2: {
                         byte[] set = {0x05}; // 代表要设置的药品类型，范围是 0～254
                         updateList(dAddress, "cmd:0x5B," + commants[2] + " :"
                                 + Arrays.toString(set));
                         write(dAddress, set.length, 0x5B, set);
                         break;
-                    case 3:
-                    case 4:
+                    }
+                    case 3:{
                         break;
+                    }
+                   default:
                 }
             }
         });
@@ -1854,66 +1860,75 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(DialogInterface dialog, int which) {
                 System.out.println("dBleDevice:" + dBleDevice.getAddress());
                 switch (which) {
-                    case 0:
+                    case 0: {
                         // 0x00 关闭数据实时同步，0x01 打开数据实时同步
                         byte[] dx = {0x01};
                         updateList(dAddress, "cmd:0x41," + commants[0] + " :"
                                 + Arrays.toString(dx));
                         write(dAddress, dx.length, 0x41, dx);
                         break;
-                    case 1:
+                    }
+                    case 1: {
                         byte[] hh = {0x01};
                         updateList(dAddress, "cmd:0x43," + commants[1] + " :"
                                 + Arrays.toString(hh) + ",请等待，历史数据在后台请求");
                         write(dAddress, hh.length, 0x43, hh);
                         break;
-                    case 2:
+                    }
+                    case 2: {
                         byte[] t = {0x01};
                         updateList(dAddress, "cmd:0x44," + commants[2] + " :"
                                 + Arrays.toString(t));
                         write(dAddress, t.length, 0x44, t);
                         break;
-                    case 3:
-                        byte[] th = {0x01};
-                        updateList(dAddress, "cmd:0x46," + commants[3] + " :"
-                                + Arrays.toString(th) + ",请等待，历史数据在后台请求");
-                        write(dAddress, th.length, 0x46, th);
-                        break;
-                    case 4:
+                    }
+                    case 3: {
+                            byte[] th = {0x01};
+                            updateList(dAddress, "cmd:0x46," + commants[3] + " :"
+                                    + Arrays.toString(th) + ",请等待，历史数据在后台请求");
+                            write(dAddress, th.length, 0x46, th);
+                            break;
+                    }
+                    case 4: {
                         // 请求挪动历史心率数据指针
                         byte[] ah = record_date(2016, 12, 17, 0);
                         updateList(dAddress, "cmd:0x49," + commants[4] + " :"
                                 + "2016-12-17 00:00");
                         write(dAddress, ah.length, 0x49, ah);
                         break;
-                    case 5:
+                    }
+                    case 5: {
                         // 请求挪动历史体温数据指针
                         byte[] at = record_date(2016, 12, 17, 0);
                         updateList(dAddress, "cmd:0x4A," + commants[5] + " :"
                                 + "2016-12-17 00:00");
                         write(dAddress, at.length, 0x4A, at);
                         break;
-                    case 6: // 关闭实时心率数据同步
+                    }
+                    case 6: { // 关闭实时心率数据同步
                         byte[] dx0 = {0x00};
                         updateList(dAddress, "cmd:0x41," + commants[6] + " :"
                                 + Arrays.toString(dx0));
                         write(dAddress, dx0.length, 0x41, dx0);
                         break;
-                    case 7: // 请求全部健康数据
+                    }
+                    case 7: {// 请求全部健康数据
                         Log.i("MainActivity", "请求全部健康数据");
                         byte[] dx03 = {0x00};
                         updateList(dAddress, "cmd:0x4B," + commants[7] + " :"
                                 + Arrays.toString(dx03));
                         write(dAddress, dx03.length, 0x4B, dx03);
                         break;
-                    case 8: // 关闭实时体温数据
+                    }
+                    case 8: {// 关闭实时体温数据
                         Log.i("MainActivity", "关闭实时体温数据");
                         byte[] offtem = {0x00};
                         updateList(dAddress, "cmd:0x44," + commants[8] + " :"
                                 + Arrays.toString(offtem));
                         write(dAddress, offtem.length, 0x44, offtem);
                         break;
-
+                    }
+                    default:
                 }
             }
         });
@@ -2326,7 +2341,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /* 打印设备连接，写入，接收数据的信息 */
         L.isDebug = true;
         mBleManager = new BLEManager(this);
-        mBleManager.setScanListener(new ScanListener() { // 扫描回调监听器
+        // 扫描回调监听器
+        mBleManager.setScanListener(new ScanListener() {
             @Override
             public void onScanResult(final int result,
                                      final BLEDevice bleDevice, final int rssi,
@@ -2361,9 +2377,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     }
                                 }
                             }
-//									if (!mBlueList.contains(bleDevice)) {
-//										mBlueList.add(bleDevice);
-//									}
+                            /*if (!mBlueList.contains(bleDevice)) {
+                                mBlueList.add(bleDevice);
+                            }*/
                             lv.setVisibility(View.VISIBLE);
                             mViewAdapter.notifyDataSetChanged();
                         } else {
@@ -2373,7 +2389,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             if (mBlueList.size() <= 0) {
                                 tvHint.setText(getString(R.string.device_no) + "");
                                 tvHint.setVisibility(View.VISIBLE);
-                            } else { //noinspection SingleStatementInBlock
+                            } else {
+                                //noinspection SingleStatementInBlock
                                 tvHint.setVisibility(View.GONE);
                             }
                             progressBar.setVisibility(View.GONE);
@@ -2387,7 +2404,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @SuppressWarnings("deprecation")
-    private void intiView() {
+    private void initView() {
         perViewPager = findViewById(R.id.per_viewPager);
         perViewPager.setOffscreenPageLimit(4);
         perAdapter = new PerAdapter<>(getSupportFragmentManager(), mFragments);
@@ -2420,13 +2437,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     */
     private void button() {
         /* 按钮 */
-        Button mbut_Loc = findViewById(R.id.but_Loc);
+        /* Button mbut_Loc = findViewById(R.id.but_Loc); */
         /* Button mbut_RoutrPlan = findViewById(R.id.but_RoutrPlan);*/
-        Button mbut_Attribute = findViewById(R.id.but_Attribute);
-        Button mbut_Command = findViewById(R.id.but_Command);
+        ImageButton mbut_Attribute = findViewById(R.id.but_Attribute);
+        ImageButton mbut_Command = findViewById(R.id.but_Command);
+        ImageButton locIcon = findViewById(R.id.location_Icon);
         /* 按钮处理 */
-        mbut_Loc.setOnClickListener(this);
+        /* mbut_Loc.setOnClickListener(this);*/
         /* mbut_RoutrPlan.setOnClickListener(this); */
+        locIcon.setOnClickListener(this);
         mbut_Attribute.setOnClickListener(this);
         mbut_Command.setOnClickListener(this);
     }
@@ -2472,8 +2491,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
-     * @param item
-     * @return
+     * @param
+     * @return item
      */
     @SuppressWarnings({"AlibabaMethodTooLong", "SingleElementAnnotation"})
     @Override
@@ -2620,14 +2639,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override public void onClick(View v) {
         SDKInitializer.initialize(this.getApplicationContext());
         switch (v.getId()) {
-            case R.id.but_Loc: {
+            case R.id.location_Icon: {
                 centerToMyLocation(mLatitude, mLongitudes);
                 break;
             }
-//            case R.id.but_RoutrPlan: {
-//                starRoute();
-//                break;
-//            }
+            /*case R.id.but_RoutrPlan: {
+                starRoute();
+                break;
+            }*/
             case R.id.but_Attribute: {
                 showViewAttribute();
                 break;
@@ -2782,7 +2801,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onGetWalkingRouteResult(WalkingRouteResult result) {
             if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
-                Toast.makeText(MainActivity.this, "路线规划:未找到结果,检查输入", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "路线规划:未找到结果,检查输入", Toast.LENGTH_SHORT).show();
                 /* 禁止定位 */
                 isFirstLocate  = false;
             }
@@ -2794,7 +2813,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             if (result.error == SearchResult.ERRORNO.NO_ERROR) {
                 baiduMap.clear();
-                Toast.makeText(MainActivity.this, "路线规划:搜索完成", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "路线规划:搜索完成", Toast.LENGTH_SHORT).show();
                 WalkingRouteOverlay overlay = new WalkingRouteOverlay(baiduMap);
                 overlay.setData(result.getRouteLines().get(0));
                 overlay.addToMap();
@@ -2823,7 +2842,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void onGetBikingRouteResult(BikingRouteResult var1) {
         }
     };
-    /** 重新获取并显示定位 */
+
+    /** button　按钮重新获取并显示定位 */
     private void centerToMyLocation(double mLatitude, double mLongtitude) {
         baiduMap.clear();
         LatLng mLastLocationData = new LatLng(mLatitude, mLongtitude);
@@ -2831,6 +2851,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         baiduMap.animateMapStatus(msu);
     }
     /** 开始规划 */
+    @SuppressWarnings("unused")
     private void starRoute() {
         Log.d(TAG, "StarRoute+进入函数");
         SDKInitializer.initialize(this.getApplicationContext());
@@ -2841,7 +2862,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .from(stNode)
                 .to(enNode));
     }
-    /** 属性View显示 */
+    /** 定位详情显示 */
     private void showViewAttribute() {
         if(mTvLog.getVisibility() == View.VISIBLE){
             mTvLog.setVisibility(View.INVISIBLE);
@@ -2854,6 +2875,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(getApplicationContext(), "按钮被点击了", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "ShowViewCommand+进入函数");
     }
-
-
 }
