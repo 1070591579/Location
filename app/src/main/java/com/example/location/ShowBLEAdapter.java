@@ -13,6 +13,9 @@ import java.util.Map;
 
 import wxz.us.ble.central.BLEDevice;
 
+/**
+ * @author Administrator
+ */
 public class ShowBLEAdapter extends BaseAdapter {
 
     private Map<String, Integer> rssiMap;
