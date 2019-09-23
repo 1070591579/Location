@@ -41,6 +41,7 @@
                 android:layout_height="match_parent"
                 android:clickable="true"
                 android:focusable="true"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -115,79 +116,248 @@
             <TextView
                 android:id="@+id/view_attribute"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
+                android:layout_height="240dp"
                 android:layout_alignBottom="@+id/b_map_View"
-                android:layout_marginBottom="0dp"
                 android:alpha="0.75"
                 android:background="@android:color/darker_gray"
                 android:scrollbars="vertical"
                 android:singleLine="false"
                 android:textAppearance="@style/ClusterIcon.TextAppearance"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:visibility="invisible" />
 
-            <com.example.location.CustomViewPager
-                android:id="@+id/per_viewPager"
+            <LinearLayout
+                android:id="@+id/device_list_log"
+                style="@style/Widget.AppCompat.ListView.Menu"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="0dp"
+                android:background="@color/material_drawer_dark_background"
+                android:divider="@color/design_default_color_background"
+                android:dividerHeight="1dp"
+                android:orientation="horizontal"
+                android:scrollbars="vertical"
                 android:visibility="invisible">
 
-                <androidx.viewpager.widget.PagerTabStrip
-                    android:id="@+id/per_pagertab"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center|top"
-                    android:background="@color/material_drawer_hint_text">
-
-                </androidx.viewpager.widget.PagerTabStrip>
-
-                <!--<androidx.viewpager.widget.ViewPager
-                    android:id="@+id/device_viewPager"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"/>-->
-                <!--<LinearLayout
-                    android:id="@+id/log_text"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    android:background="@color/material_drawer_hint_text"
-                    android:orientation="vertical"
-                    android:visibility="visible">
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:gravity="center|center_horizontal|center_vertical"
-                        android:text="@string/device_log"
-                        android:textAppearance="@style/ClusterIcon.TextAppearance" />
-
-                    <ListView
-                        android:id="@+id/device_list_view"
-                        style="@style/Widget.AppCompat.ListView.Menu"
+                    <TableLayout
+                        android:id="@+id/multipleData"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:divider="@color/design_default_color_background"
-                        android:dividerHeight="1dp" >
+                        android:gravity="center|center_horizontal|top|center_vertical"
+                        android:padding="15dp"
+                        tools:ignore="UselessParent">
 
-                    </ListView>
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center|start">
 
-                </LinearLayout>-->
-            </com.example.location.CustomViewPager>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|start|center_horizontal|center_vertical"
+                                android:text="@string/healthData" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center|start|center_horizontal|center_vertical"
+                            tools:ignore="UselessParent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|center_horizontal|center_vertical|end"
+                                android:text="@string/heartrate"
+                                android:textColor="#458B00" />
+
+                            <TextView
+                                android:id="@+id/heartsRateData"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|center_horizontal|center_vertical"
+                                android:text="0"
+                                tools:ignore="HardcodedText,RtlHardcoded" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|center_horizontal|center_vertical|end"
+                                android:text="@string/temeprature"
+                                android:textColor="#458B00" />
+
+                            <TextView
+                                android:id="@+id/tempratureData"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|center_horizontal|center_vertical"
+                                android:text="0"
+                                tools:ignore="HardcodedText,RtlHardcoded" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center|start|center_horizontal|center_vertical"
+                            tools:ignore="UselessParent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|center_horizontal|center_vertical|end"
+                                android:text="@string/lowBloodPreassure"
+                                android:textColor="#458B00" />
+
+                            <TextView
+                                android:id="@+id/lowBloodPreassureData"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|center_horizontal|center_vertical"
+                                android:text="0"
+                                tools:ignore="HardcodedText,RtlHardcoded" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|center_horizontal|center_vertical|end"
+                                android:text="@string/highBloodPreasure"
+                                android:textColor="#458B00" />
+
+                            <TextView
+                                android:id="@+id/highBloodPreasureData"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|center_horizontal|center_vertical"
+                                android:text="0"
+                                tools:ignore="HardcodedText,RtlHardcoded" />
+
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center|start|center_horizontal|center_vertical"
+                            tools:ignore="UselessParent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|center_horizontal|center_vertical|end"
+                                android:text="@string/bloodOxygenation"
+                                android:textColor="#458B00" />
+
+                            <TextView
+                                android:id="@+id/bloodOxygenationData"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|center_horizontal|center_vertical"
+                                android:text="0"
+                                tools:ignore="HardcodedText,RtlHardcoded" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|start|center_horizontal|center_vertical|end"
+                                android:text="@string/breathingRate"
+                                android:textColor="#458B00" />
+
+                            <TextView
+                                android:id="@+id/breathingRateData"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|center_horizontal|center_vertical"
+                                android:text="0"
+                                tools:ignore="HardcodedText,RtlHardcoded" />
+
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center|start">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|start|center_horizontal|center_vertical"
+                                android:text="@string/sportData" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center|start|center_horizontal|center_vertical"
+                            tools:ignore="UselessParent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|center_horizontal|center_vertical|end"
+                                android:text="@string/steps"
+                                android:textColor="#458B00" />
+
+                            <TextView
+                                android:id="@+id/sport_Data"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|center_horizontal|center_vertical"
+                                android:text="0"
+                                tools:ignore="HardcodedText,RtlHardcoded" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|center_horizontal|center_vertical|end"
+                                android:text="@string/distance"
+                                android:textColor="#458B00" />
+
+                            <TextView
+                                android:id="@+id/distance_Data"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|center_horizontal|center_vertical"
+                                android:text="0"
+                                tools:ignore="HardcodedText,RtlHardcoded" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|center_horizontal|center_vertical|end"
+                                android:text="@string/Calorie"
+                                android:textColor="#458B00" />
+
+                            <TextView
+                                android:id="@+id/Calorie_Data"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center|center_horizontal|center_vertical"
+                                android:text="0"
+                                tools:ignore="HardcodedText,RtlHardcoded" />
+                        </TableRow>
+                    </TableLayout>
+                </LinearLayout>
+
+            </LinearLayout>
 
         </RelativeLayout>
-
+        <!--第二个，不显示的抽屉布局-->
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/design_nav_view"
             android:layout_width="250dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
+            app:menu="@menu/main"
             android:background="@color/md_grey_700"
             android:orientation="vertical" />
-
     </androidx.drawerlayout.widget.DrawerLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

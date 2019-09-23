@@ -15,7 +15,7 @@
     <string name="main_clear">清除信息</string>
     <string name="main_disconnected">断开连接</string>
     <string name="main_connected">连接</string>
-    <string name= "main_rssi" > 信号 </string >
+    <string name="main_rssi" > 信号 </string >
     <string name="search_device">扫描设备</string>
     <string name="retry">重试</string>
     <string name="device_no">找不到设备</string>
@@ -59,16 +59,16 @@
     <string name="close_real_sports_data_synchronization">关闭实时运动数据同步</string>
     <string name="close_real_pressure_data_synchronization">关闭实时气压数据同步</string>
     <string name="real_data_chart">实时数据图表</string>
-    <string name="real_steps">实时步数:</string>
-    <string name="real_heartrate">实时心率:</string>
-    <string name="real_temeprature">实时体温:</string>
-    <string name="real_pressure">实时气压:</string>
-    <string name="altitude">海拔高度:</string>
-    <string name="envir_tempeature">环境温度:</string>
+    <string name="real_steps">实时步数：</string>
+    <string name="real_heartrate">实时心率：</string>
+    <string name="real_temeprature">实时体温：</string>
+    <string name="real_pressure">实时气压：</string>
+    <string name="altitude">海拔高度：</string>
+    <string name="envir_tempeature">环境温度：</string>
 
-    <string name="steps">步数</string>
-    <string name="distance">距离</string>
-    <string name="Calorie">卡路里</string>
+    <string name="steps">步数：</string>
+    <string name="distance">距离：</string>
+    <string name="Calorie">卡路里：</string>
     <string name="request_real_heartrate">请求实时心率数据</string>
     <string name="request_history_heartrate">请求历史心率数据</string>
     <string name="request_real_temperature">请求实时体温数据</string>
@@ -78,7 +78,7 @@
     <string name="close_real_heartrate">关闭实时心率数据同步</string>
     <string name="request_allhealth_data">请求测量全部健康数据</string>
     <string name="close_real_temperature">关闭实时体温数据</string>
-    <string name="heartrate">心率</string>
+    <string name="heartrate">心率：</string>
     <string name="send_result">发送结果</string>
     <string name="result_order">应答指令</string>
     <string name="wait">请等待，历史数据在后台请求</string>
@@ -88,8 +88,8 @@
     <string name="lastday_sleep_status">最近的一天睡眠情况</string>
     <string name="start_sleep_time">开始睡眠时间</string>
     <string name="stop_sleep_time">结束睡眠时间</string>
-    <string name="sleep_time">睡眠时间:</string>
-    <string name="sleep_status">睡眠状态:</string>
+    <string name="sleep_time">睡眠时间</string>
+    <string name="sleep_status">睡眠状态</string>
     <string name="hour">小时</string>
     <string name="minute">分钟</string>
     <string name="custom_binding">手机请求自定义绑定,输入不超过16个字节</string>
@@ -110,4 +110,11 @@
     <string name="main_Add">新增人员</string>
     <string name="main_Manage">人员管理</string>
     <string name="location_icon">定位图标</string>
+    <string name="lowBloodPreassure">低血压：</string>
+    <string name="highBloodPreasure">高血压：</string>
+    <string name="bloodOxygenation">血氧浓度：</string>
+    <string name="breathingRate">呼吸频率：</string>
+    <string name="healthData">健康数据：</string>
+    <string name="sportData">实时运动数据：</string>
+    <string name="temeprature">体温：</string>
 </resources>
